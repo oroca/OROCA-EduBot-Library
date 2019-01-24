@@ -29,7 +29,7 @@ bool Motor::begin(void)
   step_l.setAcc(1);
   step_l.setSpeed(0);
 
-  step_r.begin(12, 15, 33, 1);   // enable_pin, step_pin, dir_pin, dir
+  step_r.begin(12, 15,  2, 1);   // enable_pin, step_pin, dir_pin, dir
   step_r.setAcc(1);
   step_r.setSpeed(0);  
 

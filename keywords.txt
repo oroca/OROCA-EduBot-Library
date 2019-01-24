@@ -1,0 +1,31 @@
+#######################################
+# Syntax Coloring Map For OROCA-EduBot
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+EduBot	KEYWORD1    
+edubot	KEYWORD1    
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+ir_remote	KEYWORD2
+imu	KEYWORD2
+audio	KEYWORD2
+motor	KEYWORD2
+
+setSpeed	KEYWORD2
+setStep	KEYWORD2
+setLeftSpeed	KEYWORD2
+setLeftStep	KEYWORD2
+setRightSpeed	KEYWORD2
+setRightStep	KEYWORD2
+    
+#######################################
+# Constants (LITERAL1)
+#######################################

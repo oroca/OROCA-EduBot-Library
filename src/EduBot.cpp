@@ -30,8 +30,14 @@ bool EduBot::begin(int baud)
   Serial.println();
   Serial.println("[ OROCA EduBot ]");
 
-  ret = printInitLog("IR Remote Init", ir_remote.begin());
+	pinMode(27, OUTPUT);
+	pinMode(12, OUTPUT);
+	
+	digitalWrite(27, HIGH);
+  digitalWrite(12, HIGH);
+
   ret = printInitLog("Audio Init", audio.begin());
+  ret = printInitLog("IR Remote Init", ir_remote.begin());
   ret = printInitLog("IMU Init", imu.begin());
   ret = printInitLog("Audio Init", audio.begin());
   ret = printInitLog("Motor Init", motor.begin());

@@ -18,7 +18,7 @@ EduBot::EduBot(void)
 }
 
 EduBot::~EduBot()
-{	
+{ 
 }
 
 bool EduBot::begin(int baud)
@@ -30,10 +30,10 @@ bool EduBot::begin(int baud)
   Serial.println();
   Serial.println("[ OROCA EduBot ]");
 
-	pinMode(27, OUTPUT);
-	pinMode(12, OUTPUT);
-	
-	digitalWrite(27, HIGH);
+  pinMode(27, OUTPUT);
+  pinMode(12, OUTPUT);
+  
+  digitalWrite(27, HIGH);
   digitalWrite(12, HIGH);
 
   ret = printInitLog("Audio Init", audio.begin());

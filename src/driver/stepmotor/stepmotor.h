@@ -7,12 +7,12 @@
 
 typedef struct
 {
-	int32_t step_index;
-	uint8_t count_index;
-	uint8_t count_length;
-	
-	int32_t target_speed[3];
-	int32_t target_index[3];
+  int32_t step_index;
+  uint8_t count_index;
+  uint8_t count_length;
+  
+  int32_t target_speed[3];
+  int32_t target_index[3];
 
 } step_profile_t;
 

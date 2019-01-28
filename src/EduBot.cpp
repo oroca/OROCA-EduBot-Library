@@ -39,7 +39,6 @@ bool EduBot::begin(int baud)
   ret = printInitLog("Audio Init", audio.begin());
   ret = printInitLog("IR Remote Init", ir_remote.begin());
   ret = printInitLog("IMU Init", imu.begin());
-  ret = printInitLog("Audio Init", audio.begin());
   ret = printInitLog("Motor Init", motor.begin());
   ret = printInitLog("LCD Init", lcd.begin());
 

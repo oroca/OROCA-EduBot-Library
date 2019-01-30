@@ -44,6 +44,9 @@ class EduBot
     bool begin(int baud);
     bool update(void);
 
+    void ledOn(void);
+    void ledOff(void);
+    void ledToggle(void);
   private:
     bool printInitLog(const char *str_msg, bool ret);
 

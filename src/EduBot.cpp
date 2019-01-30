@@ -36,6 +36,9 @@ bool EduBot::begin(int baud)
   digitalWrite(27, HIGH);
   digitalWrite(12, HIGH);
 
+  pinMode(13, OUTPUT);
+  digitalWrite(13, LOW);
+
   ret = printInitLog("Audio Init", audio.begin());
   ret = printInitLog("IR Remote Init", ir_remote.begin());
   ret = printInitLog("IMU Init", imu.begin());
@@ -66,4 +69,19 @@ bool EduBot::update(void)
   imu.update();
 
   return true;
+}
+
+void EduBot::ledOn(void)
+{
+  digitalWrite(13, LOW);
+}
+
+void EduBot::ledOff(void)
+{
+  digitalWrite(13, HIGH);
+}
+
+void EduBot::ledToggle(void)
+{
+  digitalWrite(13, !digitalRead(13));
 }

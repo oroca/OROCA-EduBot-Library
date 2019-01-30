@@ -1057,9 +1057,7 @@ bool VL53L0X::update(void)
   bool ret = false;
   uint8_t reg;
 
-  reg = readReg(RESULT_INTERRUPT_STATUS); 
-
-  Serial.println(reg);
+  reg = readReg(RESULT_INTERRUPT_STATUS);   
   
   if ((reg & 0x07) != 0)
   {

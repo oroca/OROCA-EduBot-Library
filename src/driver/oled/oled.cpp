@@ -21,6 +21,8 @@ boolean OLed::begin(void)
   textcolor = WHITE;
   textbgcolor = BLACK;
 
+  clearDisplay(); 
+
   return ret;
 }
 

@@ -13,7 +13,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly
-  static uint8_t led_bright = 0;
+  static unt8_t led_bright = 0;
   static int    led_dir = 1;
   
   edubot.led.leftBright(led_bright, 0, 0);

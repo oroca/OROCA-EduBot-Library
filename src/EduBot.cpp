@@ -55,6 +55,9 @@ bool EduBot::begin(int baud)
   // for Unser Button
   pinMode(0, INPUT_PULLUP);
 
+  adcInfoInit();
+  adcInfoEnable(VBAT);
+  
   ret = lcd.begin();
   lcd.println(EDUBOT_VER_STR);
 
@@ -64,6 +67,8 @@ bool EduBot::begin(int baud)
   ret = printInitLog("Motor Init", motor.begin());  
   ret = printInitLog("LED Init", led.begin());
 
+  floor_sensor.begin();
+  
   pinMode(D6, OUTPUT);
   pinMode(D7, OUTPUT);
 
@@ -153,6 +158,8 @@ bool EduBot::update(void)
     tof_R.update();
   }
 
+  adcInfoUpdate();
+
   return true;
 }
 
@@ -169,4 +176,16 @@ void EduBot::ledOff(void)
 void EduBot::ledToggle(void)
 {
   digitalWrite(13, !digitalRead(13));
+}
+
+bool EduBot::buttonGetPressed(void)
+{
+  if (digitalRead(0) == 0)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }  
 }

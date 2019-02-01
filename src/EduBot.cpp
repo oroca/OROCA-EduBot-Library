@@ -11,8 +11,6 @@
 
 
 
-
-
 EduBot::EduBot(void)
 {
 }
@@ -42,6 +40,7 @@ bool EduBot::begin(int baud)
   ret = printInitLog("Audio Init", audio.begin());
   ret = printInitLog("Motor Init", motor.begin());
   ret = printInitLog("LCD Init", lcd.begin());
+  ble.begin("OROCA EduBot");
 
   return true;
 }

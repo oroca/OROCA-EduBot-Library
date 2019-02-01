@@ -21,6 +21,7 @@
 #include "./driver/hangul/PHan_Lib.h"
 #include "./driver/vl53l0x/VL53L0X.h"
 #include "./driver/ir_remote/ir_remote.h"
+#include "./driver/ble/ble.h"
 
 
 
@@ -40,6 +41,7 @@ class EduBot
     Audio     audio;
     Motor     motor;
     OLed      lcd;
+    BLE       ble;
 
     bool begin(int baud);
     bool update(void);

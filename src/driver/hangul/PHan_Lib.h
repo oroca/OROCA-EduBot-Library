@@ -47,11 +47,11 @@ extern "C"
 
 typedef struct 
 {
-	U16 HanCode;
-	U16 Size_Char;  // 글자 1개의 바이트수(한글:2 영문:1)
-	U16 Code_Type;  // 한/영/특수 문자인지 감별 
+  U16 HanCode;
+  U16 Size_Char;  // 글자 1개의 바이트수(한글:2 영문:1)
+  U16 Code_Type;  // 한/영/특수 문자인지 감별 
 
-	char FontBuffer[32];
+  char FontBuffer[32];
 } PHAN_FONT_OBJ;
 
 

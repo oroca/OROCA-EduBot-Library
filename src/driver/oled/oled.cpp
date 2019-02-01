@@ -3,7 +3,7 @@
 
 
 
-
+  
 OLed::~OLed()
 {
     
@@ -21,6 +21,9 @@ boolean OLed::begin(void)
   textcolor = WHITE;
   textbgcolor = BLACK;
 
+  clearDisplay(); 
+
+  is_init = true;
   return ret;
 }
 

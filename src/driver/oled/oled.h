@@ -10,12 +10,15 @@
 class OLed : public Adafruit_SSD1306
 {
   public:
-    OLed(): Adafruit_SSD1306(128, 64, &Wire1, -1, 800000UL, 100000UL) {}
+    OLed(): Adafruit_SSD1306(128, 64, &Wire1, -1, 800000UL, 100000UL) { is_init = false; }
     ~OLed();
     
     boolean begin(void);
     void printf(int x, int y,  const char *fmt, ...);
     void disHanFont(int x, int y, PHAN_FONT_OBJ *FontPtr);
+    bool isInit() { return is_init; };
+  private:
+    bool is_init;
 };
 
 

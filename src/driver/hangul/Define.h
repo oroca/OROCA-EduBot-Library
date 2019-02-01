@@ -25,7 +25,7 @@ typedef           float      FLOAT;
 
 #define SET_BIT(BitPort, BitNum)      BitPort |= (1<<(BitNum))
 #define CLR_BIT(BitPort, BitNum)      BitPort &= (~(1<<(BitNum)))     
-#define TGL_BIT(val,bit)	          (val)   ^= (1<<bit)
+#define TGL_BIT(val,bit)            (val)   ^= (1<<bit)
 
 #define IS_CLR_BIT(BitPort, BitNum)   (!(BitPort & (1<<BitNum)))
 #define IS_SET_BIT(BitPort, BitNum)   (BitPort & (1<<BitNum))
@@ -42,9 +42,9 @@ typedef           float      FLOAT;
 
 // 리얼 시스 때문에 추가했다.
 //
-//#define 	SET(val,bit)	(val) |= (bit)
-#define 	CLEAR(val,bit)	(val) &= (~(bit))
-#define 	TOGGLE(val,bit)	(val) ^= (bit)
+//#define   SET(val,bit)  (val) |= (bit)
+#define   CLEAR(val,bit)  (val) &= (~(bit))
+#define   TOGGLE(val,bit) (val) ^= (bit)
 
 
 
@@ -60,11 +60,11 @@ typedef           float      FLOAT;
 
 typedef union
 {
-	S16 BitS16[2];
-	S32 BitS32;
+  S16 BitS16[2];
+  S32 BitS32;
 
-	U16 BitU16[2];
-	U32 BitU32;
+  U16 BitU16[2];
+  U32 BitU32;
 
 } Q_MATH_OBJ;
 
@@ -72,24 +72,24 @@ typedef union
 
 typedef union
 {
-	S16 BitS16[2];
-	S32 BitS32;
+  S16 BitS16[2];
+  S32 BitS32;
 
-	U16 BitU16[2];
-	U32 BitU32;
-	
+  U16 BitU16[2];
+  U32 BitU32;
+  
 } WORD32_OBJ;
 
 
 typedef union               // 16비트 변수를 1바이트씩 나누어 저장
 {
-	U8  Bit8[2];
-	U16 Bit16;
-	U8  BitU8[2];
-	U16 BitU16;
-	
-	S8  BitS8[2];
-	S16 BitS16;	
+  U8  Bit8[2];
+  U16 Bit16;
+  U8  BitU8[2];
+  U16 BitU16;
+  
+  S8  BitS8[2];
+  S16 BitS16; 
 } WORD_OBJ;
 
 

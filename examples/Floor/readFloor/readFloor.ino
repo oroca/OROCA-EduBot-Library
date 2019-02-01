@@ -40,8 +40,7 @@ void loop() {
   {
     for (int i=0; i<4; i++)
     {
-      sen[i] = constrain(sen[i], 0, 3000);
-      sen[i] = map(sen[i], 0, 3000, 1, 60);
+      sen[i] = map(sen[i], 0, 255, 1, 60);
       edubot.lcd.fillRect(32*i, 64-sen[i], 10, sen[i], WHITE);      
     }    
     edubot.lcd.fillRect(64- 5 + (sen[1]-sen[2])/1, 4, 10, 4, WHITE);

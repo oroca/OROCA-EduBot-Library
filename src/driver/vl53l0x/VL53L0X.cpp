@@ -59,6 +59,8 @@ bool VL53L0X::begin(void)
   startContinuous();
 
   connected = ret;
+
+  return ret;
 }
 
 bool VL53L0X::is_connected(void)
@@ -1056,12 +1058,22 @@ bool VL53L0X::update(void)
 {
   bool ret = false;
   uint8_t reg;
+  uint16_t value;
 
   reg = readReg(RESULT_INTERRUPT_STATUS);   
   
   if ((reg & 0x07) != 0)
   {
-    distance_mm = readReg16Bit(RESULT_RANGE_STATUS + 10);
+    value = readReg16Bit(RESULT_RANGE_STATUS + 10);
+    if (value < 10)
+    {
+      value = 1200;
+    }
+    if (value > 1200)
+    {
+      value = 1200;
+    }
+    distance_mm = value;
     distance_cm = distance_mm/10;
 
     writeReg(SYSTEM_INTERRUPT_CLEAR, 0x01);

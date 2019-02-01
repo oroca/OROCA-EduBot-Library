@@ -17,5 +17,6 @@ void adcInfoEnable(uint16_t pin);
 void adcInfoDisable(uint16_t pin);
 void adcInfoUpdate(void);
 uint16_t adcInfoRead(uint16_t pin);
+uint16_t adcInfoReadRaw(uint16_t pin);
 
 #endif

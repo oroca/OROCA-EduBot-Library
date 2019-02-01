@@ -63,6 +63,7 @@ class EduBot
     void ledToggle(void);
 
     bool buttonGetPressed(void);
+    uint8_t batteryGetVoltage(void);
 
   private:
     bool printInitLog(const char *str_msg, bool ret);

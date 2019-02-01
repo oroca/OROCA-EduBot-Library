@@ -21,8 +21,10 @@
 #include "./driver/hangul/PHan_Lib.h"
 #include "./driver/vl53l0x/VL53L0X.h"
 #include "./driver/ir_remote/ir_remote.h"
+#include "./driver/neopixel/neopixel.h"
 
 
+#define EDUBOT_VER_STR            "EduBot V190201R1"
 
 #define EDUBOT_OK                 0
 #define EDUBOT_ERR_INIT_IMU       1
@@ -35,11 +37,17 @@ class EduBot
     EduBot();
     ~EduBot();
     
-    IrRemote  ir_remote;
+    
     ImuSensor imu;
     Audio     audio;
     Motor     motor;
+
+    // for Extention Board
+    IrRemote  ir_remote;
     OLed      lcd;
+    NeoPixel  led;
+    VL53L0X   tof_L;
+    VL53L0X   tof_R;
 
     bool begin(int baud);
     bool update(void);
@@ -50,6 +58,7 @@ class EduBot
   private:
     bool printInitLog(const char *str_msg, bool ret);
 
+    uint32_t pre_time[8];
 };
 
 

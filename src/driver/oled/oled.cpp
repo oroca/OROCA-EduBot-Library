@@ -3,7 +3,7 @@
 
 
 
-
+  
 OLed::~OLed()
 {
     
@@ -23,6 +23,7 @@ boolean OLed::begin(void)
 
   clearDisplay(); 
 
+  is_init = true;
   return ret;
 }
 

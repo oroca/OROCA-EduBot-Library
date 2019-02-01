@@ -49,6 +49,7 @@ bool ImuSensor::begin(void)
     return false;
   }
 
+  is_init = true;
   return true;
 }
 

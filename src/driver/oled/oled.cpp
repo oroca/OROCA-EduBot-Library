@@ -22,6 +22,7 @@ boolean OLed::begin(void)
   textbgcolor = BLACK;
 
   clearDisplay(); 
+  
 
   is_init = true;
   return ret;

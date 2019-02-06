@@ -2,7 +2,6 @@
 #define _NEOPIXEL_H_
 
 #include <Arduino.h>
-#include "./Adafruit_NeoPixel/Adafruit_NeoPixel.h"
 
 
 

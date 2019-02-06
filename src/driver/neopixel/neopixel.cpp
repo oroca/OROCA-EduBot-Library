@@ -1,13 +1,12 @@
 #include "neopixel.h"
-
+#include "./NeoPixelBus/NeoPixelBus.h"
 
 
 #define PIN             D0
 #define NUMPIXELS       2
 
 
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-
+NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> pixels(NUMPIXELS, PIN);
 
 NeoPixel::NeoPixel()
 {
@@ -29,36 +28,31 @@ bool NeoPixel::begin(void)
     right_pwm[i] = 0;
   }
 
-  pixels.begin(); 
-  pixels.setPixelColor(0, pixels.Color(0,0,0)); 
-  pixels.show(); 
-  pixels.setPixelColor(1, pixels.Color(0,0,0)); 
-  pixels.show(); 
+  pixels.Begin(); 
+  pixels.Show(); 
 
   return ret;
 }
 
 void NeoPixel::leftBright(uint8_t R, uint8_t G, uint8_t B)
 {
-  left_pwm[0] = G;
-  left_pwm[1] = R;
+  left_pwm[0] = R;
+  left_pwm[1] = G;
   left_pwm[2] = B;
-  
-  pixels.setPixelColor(1, pixels.Color(left_pwm[0],  left_pwm[1],  left_pwm[2])); 
-  pixels.show(); 
-  pixels.setPixelColor(0, pixels.Color(right_pwm[0], right_pwm[1], right_pwm[2]));   
-  pixels.show(); 
+
+
+  pixels.SetPixelColor(1, RgbColor(R, G, B));
+  pixels.Show();
 }
 
 void NeoPixel::rightBright(uint8_t R, uint8_t G, uint8_t B)
 {
-  right_pwm[0] = G;
-  right_pwm[1] = R;
+  right_pwm[0] = R;
+  right_pwm[1] = G;
   right_pwm[2] = B;
 
-  pixels.setPixelColor(1, pixels.Color(left_pwm[0],  left_pwm[1],  left_pwm[2])); 
-  pixels.show(); 
-  pixels.setPixelColor(0, pixels.Color(right_pwm[0], right_pwm[1], right_pwm[2]));   
-  pixels.show(); 
+
+  pixels.SetPixelColor(0, RgbColor(R, G, B));
+  pixels.Show();
 }
 

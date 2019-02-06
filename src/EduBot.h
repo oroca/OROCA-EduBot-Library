@@ -21,10 +21,14 @@
 #include "./driver/hangul/PHan_Lib.h"
 #include "./driver/vl53l0x/VL53L0X.h"
 #include "./driver/ir_remote/ir_remote.h"
+
+#include "./driver/ble/ble.h"
 #include "./driver/neopixel/neopixel.h"
+#include "./driver/adc_info/adc_info.h"
+#include "./driver/floor/floor.h"
 
 
-#define EDUBOT_VER_STR            "EduBot V190201R1"
+#define EDUBOT_VER_STR            "EduBot V190201R2"
 
 #define EDUBOT_OK                 0
 #define EDUBOT_ERR_INIT_IMU       1
@@ -45,9 +49,11 @@ class EduBot
     // for Extention Board
     IrRemote  ir_remote;
     OLed      lcd;
+    BLE       ble;
     NeoPixel  led;
     VL53L0X   tof_L;
     VL53L0X   tof_R;
+    Floor     floor_sensor;
 
     bool begin(int baud);
     bool update(void);
@@ -55,6 +61,10 @@ class EduBot
     void ledOn(void);
     void ledOff(void);
     void ledToggle(void);
+
+    bool buttonGetPressed(void);
+    uint8_t batteryGetVoltage(void);
+
   private:
     bool printInitLog(const char *str_msg, bool ret);
 

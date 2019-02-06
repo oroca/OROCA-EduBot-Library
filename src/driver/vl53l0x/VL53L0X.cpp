@@ -87,6 +87,16 @@ bool VL53L0X::init(bool io_2v8)
       readReg(VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV) | 0x01); // set bit 0
   }
 
+  uint8_t check_chip[2] = {0, 0};
+
+  check_chip[0] = readReg(0xC0);
+  check_chip[1] = readReg(0xC1);
+
+  if (check_chip[0] != 0xEE || check_chip[1] != 0xAA)
+  {
+    return false;
+  }
+
   // "Set I2C standard mode"
   writeReg(0x88, 0x00);
 

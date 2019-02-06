@@ -8,7 +8,7 @@
 
 
 #include "EduBot.h"
-
+#include "EduBoy.h"
 
 
 
@@ -59,7 +59,13 @@ bool EduBot::begin(int baud)
   adcInfoEnable(VBAT);
   
   ret = lcd.begin();
-
+  lcd.setCursor(28, 64 - 8);
+  lcd.print("OROCA EduBot");
+  lcd.drawBitmap((128-48)/2, (64-48)/2, &edubot_logo[1*48*48/8], 48, 48, 1);
+  lcd.display();
+  lcd.clearDisplay();
+  
+  lcd.setCursor(0, 0);
   lcd.println(EDUBOT_VER_STR);
 
   ret = printInitLog("Audio Init", audio.begin());

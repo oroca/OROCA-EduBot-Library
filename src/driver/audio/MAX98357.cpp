@@ -51,7 +51,7 @@ void MAX98357::begin(void)
    * 16 bit: 32 * 256 = 8192 bytes
    * 32 bit: 32 * 256 = 16384 bytes
    */
-  i2s_config_t i2s_config;
+  
     
   i2s_config.mode                 = mode;  
   i2s_config.sample_rate          = config->sample_rate;
@@ -63,8 +63,6 @@ void MAX98357::begin(void)
   i2s_config.intr_alloc_flags     = ESP_INTR_FLAG_LEVEL1;        // Interrupt level 1
   i2s_config.use_apll             = use_apll;
 
-
-  i2s_pin_config_t pin_config;
     
   pin_config.bck_io_num   = pin_bck;
   pin_config.ws_io_num    = pin_lrc;

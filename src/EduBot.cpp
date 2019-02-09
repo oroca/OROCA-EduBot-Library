@@ -35,7 +35,8 @@ EduBot::~EduBot()
 
 bool EduBot::begin(int baud)
 {
-  bool ret = true;
+  bool ret = false;
+  bool ret_log = false;
 
   Serial.begin(baud);
   Serial.println();
@@ -68,41 +69,28 @@ bool EduBot::begin(int baud)
   lcd.setCursor(0, 0);
   lcd.println(EDUBOT_VER_STR);
 
-  ret = printInitLog("Audio Init", audio.begin());
-  ret = printInitLog("IR Remote Init", ir_remote.begin());
-  ret = printInitLog("IMU Init", imu.begin());
-  ret = printInitLog("Motor Init", motor.begin());
-  ret = printInitLog("LED Init", led.begin());
+  ret_log = true;
+  ret_log &= printInitLog("Audio Init", audio.begin());
+  ret_log &= printInitLog("IR Remote Init", ir_remote.begin());
+  ret_log &= printInitLog("IMU Init", imu.begin());
+  ret_log &= printInitLog("Motor Init", motor.begin());
+  ret_log &= printInitLog("LED Init", led.begin());
 
   floor_sensor.begin();
-  
-  pinMode(D6, OUTPUT);
-  pinMode(D7, OUTPUT);
 
+  tofBegin();
 
-  digitalWrite(D6, LOW);
-  digitalWrite(D7, HIGH);
-  delay(10);
-
-  ret = printInitLog("TOF L Init", tof_L.begin());
-  if (ret == true)  
+  if (ret_log == false)
   {
-    tof_L.setAddress(0x10);
+    lcd.display();
+    lcd.setCursor(0, 0);
+    delay(1000);
   }
-  
-
-  digitalWrite(D6, HIGH);
-  digitalWrite(D7, HIGH);
-  delay(10);
-  
-  ret = printInitLog("TOF R Init", tof_R.begin());
-  if (ret == true)
+  else
   {
-    //tof_L.setAddress(0x02);
+    lcd.clearDisplay();
+    lcd.setCursor(0, 0);    
   }
-
-  lcd.display();
-  delay(1000);
 
   for (int i=0; i<8; i++)
   {
@@ -173,6 +161,43 @@ bool EduBot::update(void)
   adcInfoUpdate();
 
   return true;
+}
+
+bool EduBot::tofBegin(void)
+{
+  bool ret;
+
+  pinMode(D6, OUTPUT);
+  pinMode(D7, OUTPUT);
+
+
+  digitalWrite(D6, LOW);
+  digitalWrite(D7, HIGH);
+  delay(10);
+
+  ret = printInitLog("TOF L Init", tof_L.begin());
+  if (ret == true)  
+  {
+    tof_L.setAddress(0x10);
+  }
+
+
+  digitalWrite(D6, HIGH);
+  digitalWrite(D7, HIGH);
+  delay(10);
+  
+  ret &= printInitLog("TOF R Init", tof_R.begin());
+
+  return ret;
+}
+
+void EduBot::tofEnd(void)
+{
+  digitalWrite(D6, LOW);
+  digitalWrite(D7, LOW);  
+
+  tof_L.end();
+  tof_R.end();
 }
 
 void EduBot::ledOn(void)

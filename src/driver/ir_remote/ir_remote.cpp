@@ -122,6 +122,8 @@ bool IrRemote::begin(uint8_t _rx_pin)
   rmtRead(rmt_recv, ir_remote_isr);    
   is_init = true;
   pre_time = millis();
+
+  return is_init;
 }
 
 uint32_t IrRemote::available(void)

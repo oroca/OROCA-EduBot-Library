@@ -56,9 +56,10 @@ bool VL53L0X::begin(void)
   io_timeout = 100;
   ret = init();
 
-  //setSignalRateLimit(0.1);
-  //setVcselPulsePeriod(VcselPeriodPreRange, 18); // 12~18
-  //setVcselPulsePeriod(VcselPeriodFinalRange, 14); // 8~14
+  // for Long Range.
+  setSignalRateLimit(0.1);
+  setVcselPulsePeriod(VcselPeriodPreRange, 18); // 12~18
+  setVcselPulsePeriod(VcselPeriodFinalRange, 14); // 8~14
   //setMeasurementTimingBudget(200 * 1000);
 
   io_timeout = 0;
@@ -67,6 +68,11 @@ bool VL53L0X::begin(void)
   connected = ret;
 
   return ret;
+}
+
+void VL53L0X::end(void)
+{
+  connected = false;
 }
 
 bool VL53L0X::is_connected(void)
@@ -1077,6 +1083,11 @@ bool VL53L0X::update(void)
   uint8_t reg;
   uint16_t value;
 
+  if (connected == false)
+  {
+    return false;
+  }
+
   reg = readReg(RESULT_INTERRUPT_STATUS);   
   
   if ((reg & 0x07) != 0)
@@ -1084,11 +1095,11 @@ bool VL53L0X::update(void)
     value = readReg16Bit(RESULT_RANGE_STATUS + 10);
     if (value < 10)
     {
-      value = 1200;
+      value = 2000;
     }
-    if (value > 1200)
+    if (value > 2000)
     {
-      value = 1200;
+      value = 2000;
     }
     distance_mm = value;
     distance_cm = distance_mm/10;

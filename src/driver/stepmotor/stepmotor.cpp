@@ -238,7 +238,7 @@ void StepMotor::setStep(int32_t value, int32_t max_speed, bool accel)
   int32_t acc_speed;
 
 
-  if (cur_speed != 0 || target_speed != 0)
+  if (cur_speed != 0 || target_speed != 0 || value == 0)
   {
     return;
   }

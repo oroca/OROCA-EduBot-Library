@@ -107,6 +107,7 @@ class VL53L0X
     inline uint8_t getAddress(void) { return address; }
 
     bool begin(void);
+    void end(void);
     bool init(bool io_2v8 = true);
     bool update(void);
 

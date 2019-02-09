@@ -7,7 +7,8 @@ EduBot edubot;
 void setup() {
   // put your setup code here, to run once:
   
-  edubot.begin(115200);                                   
+  edubot.begin(115200);   
+  edubot.tofEnd();                                
 }
 
 void loop() {
@@ -23,5 +24,9 @@ void loop() {
     Serial.print(key_code, HEX);
     Serial.print(" ");
     Serial.println(edubot.ir_remote.getTime());
+    edubot.lcd.clearDisplay();
+    edubot.lcd.printf(0, 0, "KeyCode");
+    edubot.lcd.printf(0, 16,"0x%X", key_code);
+    edubot.lcd.display();
   }
 }

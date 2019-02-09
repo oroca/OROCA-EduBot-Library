@@ -11,13 +11,21 @@ void setup() {
   edubot.begin(115200);                                   
 
   edubot.motor.setStep(step_len, step_len);
-  delay(3000);
+  delay(1000);
   edubot.motor.setStep(-step_len, -step_len, 50);
-  delay(3000);  
-  edubot.motor.setStep(-step_len, step_len);
-  delay(3000);  
-  edubot.motor.setStep(step_len, -step_len);
-  delay(3000);    
+  delay(1000);  
+
+  edubot.motor.setStep(step_len, 0);
+  delay(1000);  
+
+  edubot.motor.setStep(-step_len, 0);
+  delay(1000);  
+
+  edubot.motor.setStep(0, step_len);
+  delay(1000);  
+
+  edubot.motor.setStep(0, -step_len);
+  delay(1000);    
 }
 
 void loop() {

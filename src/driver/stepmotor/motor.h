@@ -24,11 +24,20 @@ class Motor
 
     void setSpeed(int32_t left, int32_t right);
     void setStep(int32_t left, int32_t right, int max_speed = 0);
+    void setStepNoWait(int32_t left, int32_t right, int max_speed = 0);
     void setLeftSpeed(int32_t left);
     void setLeftStep(int32_t left, int max_speed = 0);
+    void setLeftStepNoWait(int32_t left, int max_speed = 0);
     void setRightSpeed(int32_t right);
     void setRightStep(int32_t right, int max_speed = 0);
+    void setRightStepNoWait(int32_t right, int max_speed = 0);
     void wait(void);
+    void waitLeft(void);
+    void waitRight(void);
+
+    bool isBusy(void);
+    bool isLeftBusy(void);
+    bool isRightBusy(void);
 
     int32_t getLeftSpeed(void);
     int32_t getRightSpeed(void);

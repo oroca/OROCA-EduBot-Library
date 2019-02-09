@@ -55,12 +55,24 @@ bool VL53L0X::begin(void)
 
   io_timeout = 100;
   ret = init();
+
+  // for Long Range.
+  setSignalRateLimit(0.1);
+  setVcselPulsePeriod(VcselPeriodPreRange, 18); // 12~18
+  setVcselPulsePeriod(VcselPeriodFinalRange, 14); // 8~14
+  //setMeasurementTimingBudget(200 * 1000);
+
   io_timeout = 0;
   startContinuous();
 
   connected = ret;
 
   return ret;
+}
+
+void VL53L0X::end(void)
+{
+  connected = false;
 }
 
 bool VL53L0X::is_connected(void)
@@ -87,6 +99,16 @@ bool VL53L0X::init(bool io_2v8)
       readReg(VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV) | 0x01); // set bit 0
   }
 
+  uint8_t check_chip[2] = {0, 0};
+
+  check_chip[0] = readReg(0xC0);
+  check_chip[1] = readReg(0xC1);
+
+  if (check_chip[0] != 0xEE || check_chip[1] != 0xAA)
+  {
+    return false;
+  }
+
   // "Set I2C standard mode"
   writeReg(0x88, 0x00);
 
@@ -103,6 +125,7 @@ bool VL53L0X::init(bool io_2v8)
 
   // set final range signal rate limit to 0.25 MCPS (million counts per second)
   setSignalRateLimit(0.25);
+    
 
   writeReg(SYSTEM_SEQUENCE_CONFIG, 0xFF);
 
@@ -1060,6 +1083,11 @@ bool VL53L0X::update(void)
   uint8_t reg;
   uint16_t value;
 
+  if (connected == false)
+  {
+    return false;
+  }
+
   reg = readReg(RESULT_INTERRUPT_STATUS);   
   
   if ((reg & 0x07) != 0)
@@ -1067,11 +1095,11 @@ bool VL53L0X::update(void)
     value = readReg16Bit(RESULT_RANGE_STATUS + 10);
     if (value < 10)
     {
-      value = 1200;
+      value = 2000;
     }
-    if (value > 1200)
+    if (value > 2000)
     {
-      value = 1200;
+      value = 2000;
     }
     distance_mm = value;
     distance_cm = distance_mm/10;

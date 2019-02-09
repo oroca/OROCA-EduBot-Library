@@ -80,6 +80,8 @@ class MAX98357
     QueueHandle_t i2s_event_queue;
     renderer_config_t renderer_config;
     renderer_config_t *renderer_instance;
+    i2s_config_t i2s_config;
+    i2s_pin_config_t pin_config;
 };
 
 

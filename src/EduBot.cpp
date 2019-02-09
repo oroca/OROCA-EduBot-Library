@@ -8,7 +8,7 @@
 
 
 #include "EduBot.h"
-#include "EduBoy.h"
+#include "image/EduBoy.h"
 
 
 

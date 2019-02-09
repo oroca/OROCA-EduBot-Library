@@ -55,6 +55,12 @@ bool VL53L0X::begin(void)
 
   io_timeout = 100;
   ret = init();
+
+  //setSignalRateLimit(0.1);
+  //setVcselPulsePeriod(VcselPeriodPreRange, 18); // 12~18
+  //setVcselPulsePeriod(VcselPeriodFinalRange, 14); // 8~14
+  //setMeasurementTimingBudget(200 * 1000);
+
   io_timeout = 0;
   startContinuous();
 
@@ -113,6 +119,7 @@ bool VL53L0X::init(bool io_2v8)
 
   // set final range signal rate limit to 0.25 MCPS (million counts per second)
   setSignalRateLimit(0.25);
+    
 
   writeReg(SYSTEM_SEQUENCE_CONFIG, 0xFF);
 

@@ -38,6 +38,9 @@ bool EduBot::begin(int baud)
   bool ret = false;
   bool ret_log = false;
 
+
+  driverInit();
+
   Serial.begin(baud);
   Serial.println();
   Serial.println();

@@ -23,6 +23,7 @@ class Motor
     bool begin(void);
 
     void setSpeed(int32_t left, int32_t right);
+
     void setStep(int32_t left, int32_t right, int max_speed = 0);
     void setStepNoWait(int32_t left, int32_t right, int max_speed = 0);
     void setLeftSpeed(int32_t left);
@@ -31,6 +32,15 @@ class Motor
     void setRightSpeed(int32_t right);
     void setRightStep(int32_t right, int max_speed = 0);
     void setRightStepNoWait(int32_t right, int max_speed = 0);
+
+    void setDistance(int32_t left, int32_t right, int max_speed = 0) { setStep(distanceToStep(left), distanceToStep(right), max_speed); }
+    void setLeftDistance(int32_t left, int max_speed = 0) { setStep(distanceToStep(left), max_speed); }
+    void setRightDistance(int32_t right, int max_speed = 0) { setStep(distanceToStep(right), max_speed); }
+
+    void setAcc(int32_t left, int32_t right);
+    void setLeftAcc(int32_t left);
+    void setRightAcc(int32_t right);
+
     void wait(void);
     void waitLeft(void);
     void waitRight(void);
@@ -44,8 +54,13 @@ class Motor
     int32_t getLeftStep(void);
     int32_t getRightStep(void);
 
-  private:
+    void setGearRatio(int32_t ratio);
+    void setWheelDiameter(int32_t diameter);
+    int32_t distanceToStep(int32_t distance);
 
+  private:
+    int32_t gear_ratio;
+    int32_t wheel_diameter;
 };
 
 

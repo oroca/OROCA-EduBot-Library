@@ -39,10 +39,39 @@ bool Motor::begin(void)
   return true;
 }
 
-void Motor::setSpeed(int32_t left, int32_t right)
+void Motor::setSpeed(int32_t left, int32_t right, uint32_t delay_ms)
 {
   step_l.setSpeed(left);
   step_r.setSpeed(right);  
+
+  if (delay_ms > 0)
+  {
+    delay(delay_ms);
+    step_l.setSpeed(0);
+    step_r.setSpeed(0);  
+  }
+}
+
+void Motor::setLeftSpeed(int32_t left, uint32_t delay_ms)
+{
+  step_l.setSpeed(left);
+
+  if (delay_ms > 0)
+  {
+    delay(delay_ms);
+    step_l.setSpeed(0);
+  }
+}
+
+void Motor::setRightSpeed(int32_t right, uint32_t delay_ms)
+{
+  step_r.setSpeed(right);  
+
+  if (delay_ms > 0)
+  {
+    delay(delay_ms);
+    step_r.setSpeed(0);  
+  }
 }
 
 void Motor::setStep(int32_t left, int32_t right, int max_speed)

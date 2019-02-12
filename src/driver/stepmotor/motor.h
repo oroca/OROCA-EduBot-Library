@@ -22,7 +22,9 @@ class Motor
     
     bool begin(void);
 
-    void setSpeed(int32_t left, int32_t right);
+    void setSpeed(int32_t left, int32_t right, uint32_t delay_ms = 0);
+    void setLeftSpeed(int32_t left, uint32_t delay_ms = 0);
+    void setRightSpeed(int32_t right, uint32_t delay_ms = 0);
 
     void setStep(int32_t left, int32_t right, int max_speed = 0);
     void setStepNoWait(int32_t left, int32_t right, int max_speed = 0);

@@ -1,6 +1,7 @@
 
 #include "ble.h"
-#include <Arduino.h>
+
+#ifdef EDUBOT_DRIVER_BLE
 
 static bool g_deviceConnected;
 static bool g_oldDeviceConnected;
@@ -97,3 +98,6 @@ void BLE::BLEServerCallback::onDisconnect(BLEServer* pServer)
 {
   g_deviceConnected = false;
 }
+
+
+#endif

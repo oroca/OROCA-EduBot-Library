@@ -16,6 +16,8 @@ StepMotor step_r(1);
 
 Motor::Motor()
 {
+  gear_ratio = 50;
+  wheel_diameter = 32;
 }
 
 Motor::~Motor()
@@ -37,10 +39,39 @@ bool Motor::begin(void)
   return true;
 }
 
-void Motor::setSpeed(int32_t left, int32_t right)
+void Motor::setSpeed(int32_t left, int32_t right, uint32_t delay_ms)
 {
   step_l.setSpeed(left);
   step_r.setSpeed(right);  
+
+  if (delay_ms > 0)
+  {
+    delay(delay_ms);
+    step_l.setSpeed(0);
+    step_r.setSpeed(0);  
+  }
+}
+
+void Motor::setLeftSpeed(int32_t left, uint32_t delay_ms)
+{
+  step_l.setSpeed(left);
+
+  if (delay_ms > 0)
+  {
+    delay(delay_ms);
+    step_l.setSpeed(0);
+  }
+}
+
+void Motor::setRightSpeed(int32_t right, uint32_t delay_ms)
+{
+  step_r.setSpeed(right);  
+
+  if (delay_ms > 0)
+  {
+    delay(delay_ms);
+    step_r.setSpeed(0);  
+  }
 }
 
 void Motor::setStep(int32_t left, int32_t right, int max_speed)
@@ -137,4 +168,47 @@ int32_t Motor::getLeftStep(void)
 int32_t Motor::getRightStep(void)
 {
   return step_r.step_count;
+}
+
+void Motor::setAcc(int32_t left, int32_t right)
+{
+  step_l.setAcc(left);
+  step_r.setAcc(right);
+}
+
+void Motor::setLeftAcc(int32_t left)
+{
+  step_l.setAcc(left);
+}
+
+void Motor::setRightAcc(int32_t right)
+{
+  step_r.setAcc(right);
+}
+
+void Motor::setGearRatio(int32_t ratio)
+{
+  gear_ratio = ratio;
+}
+
+void Motor::setWheelDiameter(int32_t diameter)
+{
+  wheel_diameter = diameter;
+}
+
+int32_t Motor::distanceToStep(int32_t distance)
+{
+  // 모터 스텝각          : 18도
+  // 모터 1회전시 스텝 수  : 360/18 = 20;
+  // 휠 1회전시 스텝 수    : 20 * 기어비
+  int32_t steps_per_rotate;
+  int32_t steps_for_distance;
+
+
+  steps_per_rotate = 20 * gear_ratio;
+
+  steps_for_distance = distance * steps_per_rotate / ((float)wheel_diameter * M_PI);
+
+
+  return steps_for_distance;
 }

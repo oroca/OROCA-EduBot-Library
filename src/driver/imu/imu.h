@@ -19,17 +19,17 @@ class ImuSensor
     bool update(void);
 
 
-    float getRoll(void) { return m_imu.roll; }
-    float getPitch(void) { return m_imu.pitch; }
-    float getYaw(void) { return m_imu.yaw; }    
+    float getRoll(void);
+    float getPitch(void);
+    float getYaw(void);
 
-    float getAccX(void) { return m_imu.calcAccel(m_imu.ax); };
-    float getAccY(void) { return m_imu.calcAccel(m_imu.ay); };
-    float getAccZ(void) { return m_imu.calcAccel(m_imu.az); };
+    float getAccX(void);
+    float getAccY(void);
+    float getAccZ(void);
 
-    float getGyroX(void) { return m_imu.calcGyro(m_imu.gx); };
-    float getGyroY(void) { return m_imu.calcGyro(m_imu.gy); };
-    float getGyroZ(void) { return m_imu.calcGyro(m_imu.gz); };
+    float getGyroX(void);
+    float getGyroY(void);
+    float getGyroZ(void);
 
   private:
     bool is_init;

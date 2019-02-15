@@ -10,22 +10,7 @@
 
 #include <Arduino.h>
 
-
-
-#include "./driver/imu/imu.h"
-#include "./driver/stepmotor/motor.h"
-#include "./driver/stepmotor/stepmotor.h"
-#include "./driver/audio/audio.h"
-#include "./driver/oled/oled.h"
-#include "./driver/oled/oled.h"
-#include "./driver/hangul/PHan_Lib.h"
-#include "./driver/vl53l0x/VL53L0X.h"
-#include "./driver/ir_remote/ir_remote.h"
-
-#include "./driver/ble/ble.h"
-#include "./driver/neopixel/neopixel.h"
-#include "./driver/adc_info/adc_info.h"
-#include "./driver/floor/floor.h"
+#include "./driver/driver.h"
 
 
 #define EDUBOT_VER_STR            "EduBot V190201R2"
@@ -49,7 +34,9 @@ class EduBot
     // for Extention Board
     IrRemote  ir_remote;
     OLed      lcd;
+#ifdef EDUBOT_DRIVER_BLE
     BLE       ble;
+#endif
     NeoPixel  led;
     VL53L0X   tof_L;
     VL53L0X   tof_R;

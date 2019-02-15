@@ -1,6 +1,11 @@
 #include "imu.h"
 
 
+static xSemaphoreHandle lock;
+
+
+#define IMU_MUTEX_LOCK()    do {} while (xSemaphoreTake(lock, portMAX_DELAY) != pdPASS)
+#define IMU_MUTEX_UNLOCK()  xSemaphoreGive(lock)
 
 
 ImuSensor::ImuSensor(void)
@@ -22,6 +27,14 @@ bool ImuSensor::begin(void)
 {
   inv_error_t inv_error;
 
+  if(lock == NULL) 
+  {
+    lock = xSemaphoreCreateMutex();
+    if(lock == NULL) 
+    {
+      return false;
+    }
+  }
 
   // Call imu.begin() to verify communication and initialize
   if (m_imu.begin() != INV_SUCCESS)
@@ -61,6 +74,7 @@ bool ImuSensor::update(void)
   // Check for new data in the FIFO
   if ( m_imu.fifoAvailable() )
   {
+    IMU_MUTEX_LOCK();
     // Use dmpUpdateFifo to update the ax, gx, mx, etc. values
     if ( m_imu.dmpUpdateFifo() == INV_SUCCESS)
     {
@@ -69,7 +83,107 @@ bool ImuSensor::update(void)
       m_imu.computeEulerAngles();
       ret = true;
     }
+    IMU_MUTEX_UNLOCK();
   }  
 
   return ret;
 }
+
+float ImuSensor::getRoll(void) 
+{
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.roll;
+  IMU_MUTEX_UNLOCK();
+
+  return ret;; 
+}
+
+float ImuSensor::getPitch(void) 
+{
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.pitch;
+  IMU_MUTEX_UNLOCK();
+
+  return ret; 
+}
+
+float ImuSensor::getYaw(void) 
+{ 
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.yaw;
+  IMU_MUTEX_UNLOCK();
+
+  return ret; 
+}    
+
+float ImuSensor::getAccX(void) 
+{
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.calcAccel(m_imu.ax);
+  IMU_MUTEX_UNLOCK();
+
+  return ret; 
+};
+
+float ImuSensor::getAccY(void) 
+{
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.calcAccel(m_imu.ay);
+  IMU_MUTEX_UNLOCK();
+
+  return ret; 
+};
+
+float ImuSensor::getAccZ(void) 
+{ 
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.calcAccel(m_imu.az);
+  IMU_MUTEX_UNLOCK();
+
+  return ret; 
+};
+
+float ImuSensor::getGyroX(void) 
+{ 
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.calcGyro(m_imu.gx);
+  IMU_MUTEX_UNLOCK();
+
+  return ret; 
+};
+
+float ImuSensor::getGyroY(void) 
+{ 
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.calcGyro(m_imu.gy);
+  IMU_MUTEX_UNLOCK();
+
+  return ret;   
+};
+
+float ImuSensor::getGyroZ(void) 
+{ 
+  float ret = 0.0;
+
+  IMU_MUTEX_LOCK();
+  ret = m_imu.calcGyro(m_imu.gz);
+  IMU_MUTEX_UNLOCK();
+
+  return ret;   
+};

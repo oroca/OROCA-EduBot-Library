@@ -34,7 +34,9 @@ class EduBot
     // for Extention Board
     IrRemote  ir_remote;
     OLed      lcd;
+#ifdef EDUBOT_DRIVER_BLE
     BLE       ble;
+#endif
     NeoPixel  led;
     VL53L0X   tof_L;
     VL53L0X   tof_R;

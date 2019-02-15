@@ -110,8 +110,6 @@ bool EduBot::begin(int baud)
     ,  1);
     
 
-  //ble.begin("OROCA EduBot");  
-
   return true;
 }
 

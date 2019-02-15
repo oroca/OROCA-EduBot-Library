@@ -1,6 +1,10 @@
 #ifndef  _DRIVER_BLE_BLE_H
 #define  _DRIVER_BLE_BLE_H
 
+#include "../def.h"
+
+#ifdef EDUBOT_DRIVER_BLE
+
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
@@ -34,5 +38,6 @@ class BLE
 };
 
 
+#endif
 
 #endif  /* _DRIVER_BLE_BLE_H */

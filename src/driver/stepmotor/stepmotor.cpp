@@ -240,6 +240,11 @@ void StepMotor::setStep(int32_t value, int32_t max_speed, bool accel)
 
   if (cur_speed != 0 || target_speed != 0 || value == 0)
   {
+    if (value == 0)
+    {
+      target_speed = 0;
+      total_step = 0;
+    }
     return;
   }
 

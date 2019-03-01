@@ -343,7 +343,7 @@ void StepMotor::setStep(int32_t value, int32_t max_speed, bool accel)
 
 bool StepMotor::isBusy(void)
 {
-  if (total_step > 0)
+  if (total_step > 0 || cur_speed > 0)
   {
     return true;
   }

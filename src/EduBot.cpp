@@ -171,8 +171,10 @@ bool EduBot::tofBegin(void)
   pinMode(D6, OUTPUT);
   pinMode(D7, OUTPUT);
 
-
   digitalWrite(D6, LOW);
+  digitalWrite(D7, LOW);
+  delay(10);
+
   digitalWrite(D7, HIGH);
   delay(10);
 
@@ -181,13 +183,20 @@ bool EduBot::tofBegin(void)
   {
     tof_L.setAddress(0x10);
   }
+  else
+  {
+    digitalWrite(D7, LOW);
+  }
 
 
   digitalWrite(D6, HIGH);
-  digitalWrite(D7, HIGH);
   delay(10);
   
   ret &= printInitLog("TOF R Init", tof_R.begin());
+  if (ret == false)  
+  {
+    digitalWrite(D6, LOW);
+  }
 
   return ret;
 }

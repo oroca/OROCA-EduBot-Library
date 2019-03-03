@@ -39,6 +39,7 @@ VL53L0X::VL53L0X(void)
   , io_timeout(0) // no timeout
   , did_timeout(false)
 {
+  connected = false;
 }
 
 // Public Methods //////////////////////////////////////////////////////////////
@@ -56,15 +57,17 @@ bool VL53L0X::begin(void)
   io_timeout = 100;
   ret = init();
 
-  // for Long Range.
-  setSignalRateLimit(0.1);
-  setVcselPulsePeriod(VcselPeriodPreRange, 18); // 12~18
-  setVcselPulsePeriod(VcselPeriodFinalRange, 14); // 8~14
-  //setMeasurementTimingBudget(200 * 1000);
+  if (ret == true)
+  {    
+    // for Long Range.
+    setSignalRateLimit(0.1);
+    setVcselPulsePeriod(VcselPeriodPreRange, 18); // 12~18
+    setVcselPulsePeriod(VcselPeriodFinalRange, 14); // 8~14
+    //setMeasurementTimingBudget(200 * 1000);
 
-  io_timeout = 0;
-  startContinuous();
-
+    io_timeout = 0;
+    startContinuous();
+  }
   connected = ret;
 
   return ret;
@@ -90,8 +93,11 @@ bool VL53L0X::is_connected(void)
 // mode.
 bool VL53L0X::init(bool io_2v8)
 {
+  uint32_t pre_time;
+
   // VL53L0X_DataInit() begin
 
+  pre_time = millis();
   // sensor uses 1V8 mode for I/O by default; switch to 2V8 mode if necessary
   if (io_2v8)
   {
@@ -317,6 +323,11 @@ bool VL53L0X::init(bool io_2v8)
 
   // VL53L0X_PerformRefCalibration() end
 
+  if (millis()-pre_time > 1000)
+  {
+    return false;
+  }
+  
   return true;
 }
 

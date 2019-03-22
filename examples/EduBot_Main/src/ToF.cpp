@@ -2,15 +2,14 @@
 
 
 
-void setup() {
+void tof_setup() {
   // put your setup code here, to run once:
   
   edubot.begin(115200);       
 }
 
-uint8_t mode = 0;
 
-void loop() {
+void tof_loop() {
   // put your main code here, to run repeatedly
 
   edubot.lcd.clearDisplay();

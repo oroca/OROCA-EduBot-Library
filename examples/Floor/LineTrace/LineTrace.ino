@@ -1,7 +1,7 @@
 #include <EduBot.h>
 
 
-EduBot edubot;
+
 
 int step_speed = 90;
 

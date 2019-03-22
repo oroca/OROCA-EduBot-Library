@@ -2,8 +2,6 @@
 #include "logo.h"
 
 
-EduBot edubot;
-
 
 
 void setup() {

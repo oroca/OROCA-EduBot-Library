@@ -1,7 +1,6 @@
 #include <EduBot.h>
 
 
-EduBot edubot;
 
 
 uint32_t key_left   = 0xF807FF00;

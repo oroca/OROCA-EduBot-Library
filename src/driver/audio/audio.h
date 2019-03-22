@@ -62,11 +62,13 @@ class Audio
     bool isInit(void);
 
     bool playFile(char *p_name, bool wait);
+    bool playBuff(uint8_t *p_buff, uint32_t length, bool wait);
     void playStop(void);
     void waitStop(void);
     bool isBusy(void);
 
   private:
+    
     
 };
 

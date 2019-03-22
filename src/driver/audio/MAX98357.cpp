@@ -62,7 +62,7 @@ void MAX98357::begin(void)
   i2s_config.dma_buf_len          = 64;                          // size of each buffer
   i2s_config.intr_alloc_flags     = ESP_INTR_FLAG_LEVEL1;        // Interrupt level 1
   i2s_config.use_apll             = use_apll;
-
+  i2s_config.tx_desc_auto_clear   = true;
     
   pin_config.bck_io_num   = pin_bck;
   pin_config.ws_io_num    = pin_lrc;
@@ -216,5 +216,6 @@ void MAX98357::stop(void)
   }
 
   renderer_status = STOPPED;
+  i2s_zero_dma_buffer(renderer_instance->i2s_num);
   i2s_stop(renderer_instance->i2s_num);  
 }

@@ -4,8 +4,6 @@
   https://blog.naver.com/chcbaram/221416603068
 */
 
-EduBot edubot;
-
 
 
 void setup() {

@@ -1,13 +1,11 @@
 #include <EduBot.h>
 
 
-EduBot edubot;
+
 
 
 void setup() {
   // put your setup code here, to run once:
-  int step_len = 500;
-  
   edubot.begin(115200);                                   
 }
 

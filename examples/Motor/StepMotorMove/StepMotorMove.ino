@@ -1,8 +1,6 @@
 #include <EduBot.h>
 
 
-EduBot edubot;
-
 
 void setup() {
   // put your setup code here, to run once:

@@ -31,6 +31,9 @@ bool NeoPixel::begin(void)
   pixels.Begin(); 
   pixels.Show(); 
 
+  leftBright(0, 0, 0);
+  rightBright(0, 0, 0);
+  
   return ret;
 }
 

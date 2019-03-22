@@ -27,12 +27,12 @@
 #define SENSOR_CHARACTERISTIC_ALL_DATA_UUID          "34443c3f-3356-11e9-b210-d663bd873d93"
 
 
-char ble_mac_addr[6] = {0, 0, 0, 0, 0, 0};
+static char ble_mac_addr[6] = {0, 0, 0, 0, 0, 0};
 
-int8_t value_motor_set_accel[2] = {0, 0};
-uint8_t value_sensor_floor_sensors[4] = {0, 0, 0, 0};
-uint16_t value_sensor_distance_sensors[2] = {0, 0};
-int16_t value_sensor_imu_sensor[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+static int8_t value_motor_set_accel[2] = {0, 0};
+static uint8_t value_sensor_floor_sensors[4] = {0, 0, 0, 0};
+static uint16_t value_sensor_distance_sensors[2] = {0, 0};
+static int16_t value_sensor_imu_sensor[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 // packet index
 // robot_is_moving
@@ -40,29 +40,29 @@ int16_t value_sensor_imu_sensor[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 // battery_is_low?
 // button_pressed
 
-uint8_t value_misc_status_info[4] = {0, 0, 0, 0};
-uint8_t value_sensor_all_data[30] = {0, };
+static uint8_t value_misc_status_info[4] = {0, 0, 0, 0};
+static uint8_t value_sensor_all_data[30] = {0, };
 
-uint8_t status_led_count = 0;
-uint8_t status_update_info_count = 0;
-uint8_t status_update_sensors_count = 0;
-uint8_t status_update_all_count = 0;
-bool device_connected = false;
+static uint8_t status_led_count = 0;
+static uint8_t status_update_info_count = 0;
+static uint8_t status_update_sensors_count = 0;
+static uint8_t status_update_all_count = 0;
+static bool device_connected = false;
 
-bool status_text_displayed = false;
+static bool status_text_displayed = false;
 
-std::string display_text = "";
-int8_t request_display_text = 0;
-uint8_t display_image_index = 0;
-int8_t request_display_image = 0;
+static std::string display_text = "";
+static int8_t request_display_text = 0;
+static uint8_t display_image_index = 0;
+static int8_t request_display_image = 0;
 
-int8_t request_motor_wait_result = 0;
+static int8_t request_motor_wait_result = 0;
 
-BLECharacteristic *mCharSensorFloorSensors = NULL;
-BLECharacteristic *mCharSensorDistanceSensors = NULL;
-BLECharacteristic *mCharSensorImuSensor = NULL;
-BLECharacteristic *mCharMiscStatusInfo = NULL;
-BLECharacteristic *mCharSensorAllData = NULL;
+static BLECharacteristic *mCharSensorFloorSensors = NULL;
+static BLECharacteristic *mCharSensorDistanceSensors = NULL;
+static BLECharacteristic *mCharSensorImuSensor = NULL;
+static BLECharacteristic *mCharMiscStatusInfo = NULL;
+static BLECharacteristic *mCharSensorAllData = NULL;
 
 
 class MyBLEServerCallbacks: public BLEServerCallbacks {
@@ -267,14 +267,16 @@ class MyMiscSetImageOLEDCallbacks: public BLECharacteristicCallbacks {
 };
 
 
-void setup() {
+void scratch_setup() {
   // put your setup code here, to run once:
   edubot.begin(115200);
   Serial.println("===============\nStarting BLE work!");
 
   BLEDevice::init("OROCA_EduBot");
+  
   BLEServer *mServer = BLEDevice::createServer();
   mServer->setCallbacks(new MyBLEServerCallbacks());
+
   
   BLEAddress addr = BLEDevice::getAddress();  
   memcpy(ble_mac_addr, *addr.getNative(), 6);
@@ -447,7 +449,7 @@ void setup() {
 }
 
 
-void loop() {
+void scratch_loop() {
   // put your main code here, to run repeatedly:
   delay(10);
 

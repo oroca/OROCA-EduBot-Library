@@ -19,7 +19,10 @@ extern void audio_setup();
 extern void audio_loop();
 extern void neopixel_setup();
 extern void neopixel_loop();
-
+extern void irremote_setup();
+extern void irremote_loop();
+extern void battery_setup();
+extern void battery_loop();
  
 void setup() {
   // put your setup code here, to run once:
@@ -34,6 +37,8 @@ void setup() {
   edubot.menuAdd("ToF", tof_setup, tof_loop);
   edubot.menuAdd("Audio", audio_setup, audio_loop);  
   edubot.menuAdd("NeoPixel", neopixel_setup, neopixel_loop);  
+  edubot.menuAdd("IrRemote", irremote_setup, irremote_loop);  
+  edubot.menuAdd("Battery", battery_setup, battery_loop);  
 }
 
 void loop() {

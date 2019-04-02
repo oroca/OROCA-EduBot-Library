@@ -23,12 +23,15 @@ extern void irremote_setup();
 extern void irremote_loop();
 extern void battery_setup();
 extern void battery_loop();
+extern void bitblue_setup();
+extern void bitblue_loop();
  
 void setup() {
   // put your setup code here, to run once:
   edubot.begin(115200);
   
   edubot.menuAdd("스크래치 3.0", scratch_setup, scratch_loop);
+  edubot.menuAdd("BitBlue", bitblue_setup, bitblue_loop);
   edubot.menuAdd("LineTrace", linetrace_setup, linetrace_loop);
   edubot.menuAdd("StepMotor", stepmotor_setup, stepmotor_loop);
   edubot.menuAdd("GetAcc", getacc_setup, getacc_loop);

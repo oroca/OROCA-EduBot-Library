@@ -44,7 +44,7 @@ void linetrace_loop() {
       edubot.lcd.fillRect(11 + 32*i, 64-sen[i], 10, sen[i], WHITE);      
     }    
 
-    line_pos = (sen[1]-sen[2])/1;
+    line_pos = (sen[2]-sen[1])/1;
     
     edubot.lcd.fillRect(64- 5 + line_pos, 4, 10, 4, WHITE);
 

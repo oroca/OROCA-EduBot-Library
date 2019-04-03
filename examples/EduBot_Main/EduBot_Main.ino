@@ -1,47 +1,36 @@
 #include <EduBot.h>
 
 
-extern void scratch_setup();
-extern void scratch_loop();
-extern void linetrace_setup();
-extern void linetrace_loop();
-extern void stepmotor_setup();
-extern void stepmotor_loop();
-extern void getacc_setup();
-extern void getacc_loop();
-extern void getgyro_setup();
-extern void getgyro_loop();
-extern void getrpy_setup();
-extern void getrpy_loop();
-extern void tof_setup();
-extern void tof_loop();
-extern void audio_setup();
-extern void audio_loop();
-extern void neopixel_setup();
-extern void neopixel_loop();
-extern void irremote_setup();
-extern void irremote_loop();
-extern void battery_setup();
-extern void battery_loop();
-extern void bitblue_setup();
-extern void bitblue_loop();
+namespace AppScratch      { extern void setup(); extern void loop(); }
+namespace AppLineTrace    { extern void setup(); extern void loop(); }
+namespace AppStepMotor    { extern void setup(); extern void loop(); }
+namespace AppGetAcc       { extern void setup(); extern void loop(); }
+namespace AppGetGyro      { extern void setup(); extern void loop(); }
+namespace AppGetRpy       { extern void setup(); extern void loop(); }
+namespace AppTof          { extern void setup(); extern void loop(); }
+namespace AppAudio        { extern void setup(); extern void loop(); }
+namespace AppNeoPixel     { extern void setup(); extern void loop(); }
+namespace AppIrRemote     { extern void setup(); extern void loop(); }
+namespace AppBattery      { extern void setup(); extern void loop(); }
+namespace AppBitBlue      { extern void setup(); extern void loop(); }
+
  
 void setup() {
   // put your setup code here, to run once:
   edubot.begin(115200);
   
-  edubot.menuAdd("스크래치 3.0", scratch_setup, scratch_loop);
-  edubot.menuAdd("BitBlue", bitblue_setup, bitblue_loop);
-  edubot.menuAdd("LineTrace", linetrace_setup, linetrace_loop);
-  edubot.menuAdd("StepMotor", stepmotor_setup, stepmotor_loop);
-  edubot.menuAdd("GetAcc", getacc_setup, getacc_loop);
-  edubot.menuAdd("GetGyro", getgyro_setup, getgyro_loop);
-  edubot.menuAdd("GetRPY", getrpy_setup, getrpy_loop);
-  edubot.menuAdd("ToF", tof_setup, tof_loop);
-  edubot.menuAdd("Audio", audio_setup, audio_loop);  
-  edubot.menuAdd("NeoPixel", neopixel_setup, neopixel_loop);  
-  edubot.menuAdd("IrRemote", irremote_setup, irremote_loop);  
-  edubot.menuAdd("Battery", battery_setup, battery_loop);  
+  edubot.menuAdd("스크래치 3.0", AppScratch::setup,     AppScratch::loop);
+  edubot.menuAdd("BitBlue",     AppBitBlue::setup,     AppBitBlue::loop);
+  edubot.menuAdd("LineTrace",   AppLineTrace::setup,   AppLineTrace::loop);
+  edubot.menuAdd("StepMotor",   AppStepMotor::setup,   AppStepMotor::loop);
+  edubot.menuAdd("GetAcc",      AppGetAcc::setup,      AppGetAcc::loop);
+  edubot.menuAdd("GetGyro",     AppGetGyro::setup,     AppGetGyro::loop);
+  edubot.menuAdd("GetRPY",      AppGetRpy::setup,      AppGetRpy::loop);
+  edubot.menuAdd("ToF",         AppTof::setup,         AppTof::loop);
+  edubot.menuAdd("Audio",       AppAudio::setup,       AppAudio::loop);  
+  edubot.menuAdd("NeoPixel",    AppNeoPixel::setup,    AppNeoPixel::loop);  
+  edubot.menuAdd("IrRemote",    AppIrRemote::setup,    AppIrRemote::loop);  
+  edubot.menuAdd("Battery",     AppBattery::setup, AppBattery::loop);  
 }
 
 void loop() {

@@ -2,12 +2,15 @@
 
 
 
-void getgyro_setup() {
+namespace AppGetGyro
+{
+
+void setup() {
   // put your setup code here, to run once:
   edubot.begin(115200);                                   
 }
 
-void getgyro_loop() {
+void loop() {
   // put your main code here, to run repeatedly:
   static uint32_t pre_time; 
 
@@ -31,4 +34,6 @@ void getgyro_loop() {
     Serial.print(edubot.imu.getGyroZ());
     Serial.println();    
   }   
+}
+
 }

@@ -1,15 +1,17 @@
 #include <EduBot.h>
 
 
+namespace AppTof
+{
 
-void tof_setup() {
+void setup() {
   // put your setup code here, to run once:
   
   edubot.begin(115200);       
 }
 
 
-void tof_loop() {
+void loop() {
   // put your main code here, to run repeatedly
 
   edubot.lcd.clearDisplay();
@@ -25,4 +27,6 @@ void tof_loop() {
   Serial.print(edubot.tof_L.distance_mm);
   Serial.print(" ");
   Serial.println(edubot.tof_R.distance_mm);
+}
+
 }

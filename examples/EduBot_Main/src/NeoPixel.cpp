@@ -2,16 +2,17 @@
 
 
 
+namespace AppNeoPixel
+{
 
-
-void neopixel_setup() {
+void setup() {
   // put your setup code here, to run once:
   
   edubot.begin(115200);                                     
 
 }
 
-void neopixel_loop() {
+void loop() {
   // put your main code here, to run repeatedly
   static uint8_t led_bright = 0;
   static int led_dir = 1;
@@ -54,4 +55,6 @@ void neopixel_loop() {
     led_index %= 3;
   }  
   delay(2);
+}
+
 }

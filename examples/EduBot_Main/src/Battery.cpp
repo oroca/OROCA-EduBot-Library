@@ -2,13 +2,16 @@
 
 
 
-void battery_setup() {
+namespace AppBattery
+{
+
+void setup() {
   // put your setup code here, to run once:
   
   edubot.begin(115200);   
 }
 
-void battery_loop() {
+void loop() {
   // put your main code here, to run repeatedly
   float vol;
 
@@ -18,4 +21,6 @@ void battery_loop() {
   edubot.lcd.printf(0, 16,"%1.1f V", vol/10);
   edubot.lcd.display();
   delay(100);
+}
+
 }

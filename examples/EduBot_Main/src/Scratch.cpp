@@ -6,6 +6,8 @@
 #include <image/EduBoy.h>
 
 
+namespace AppScratch
+{
 
 #define MOTOR_SERVICE_UUID                           "e005"
 #define MOTOR_CHARACTERISTIC_SET_STEP_UUID           "34443c33-3356-11e9-b210-d663bd873d93"
@@ -27,12 +29,12 @@
 #define SENSOR_CHARACTERISTIC_ALL_DATA_UUID          "34443c3f-3356-11e9-b210-d663bd873d93"
 
 
-static char ble_mac_addr[6] = {0, 0, 0, 0, 0, 0};
+char ble_mac_addr[6] = {0, 0, 0, 0, 0, 0};
 
-static int8_t value_motor_set_accel[2] = {0, 0};
-static uint8_t value_sensor_floor_sensors[4] = {0, 0, 0, 0};
-static uint16_t value_sensor_distance_sensors[2] = {0, 0};
-static int16_t value_sensor_imu_sensor[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+int8_t value_motor_set_accel[2] = {0, 0};
+uint8_t value_sensor_floor_sensors[4] = {0, 0, 0, 0};
+uint16_t value_sensor_distance_sensors[2] = {0, 0};
+int16_t value_sensor_imu_sensor[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 // packet index
 // robot_is_moving
@@ -40,29 +42,29 @@ static int16_t value_sensor_imu_sensor[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 // battery_is_low?
 // button_pressed
 
-static uint8_t value_misc_status_info[4] = {0, 0, 0, 0};
-static uint8_t value_sensor_all_data[30] = {0, };
+uint8_t value_misc_status_info[4] = {0, 0, 0, 0};
+uint8_t value_sensor_all_data[30] = {0, };
 
-static uint8_t status_led_count = 0;
-static uint8_t status_update_info_count = 0;
-static uint8_t status_update_sensors_count = 0;
-static uint8_t status_update_all_count = 0;
-static bool device_connected = false;
+uint8_t status_led_count = 0;
+uint8_t status_update_info_count = 0;
+uint8_t status_update_sensors_count = 0;
+uint8_t status_update_all_count = 0;
+bool device_connected = false;
 
-static bool status_text_displayed = false;
+bool status_text_displayed = false;
 
-static std::string display_text = "";
-static int8_t request_display_text = 0;
-static uint8_t display_image_index = 0;
-static int8_t request_display_image = 0;
+std::string display_text = "";
+int8_t request_display_text = 0;
+uint8_t display_image_index = 0;
+int8_t request_display_image = 0;
 
-static int8_t request_motor_wait_result = 0;
+int8_t request_motor_wait_result = 0;
 
-static BLECharacteristic *mCharSensorFloorSensors = NULL;
-static BLECharacteristic *mCharSensorDistanceSensors = NULL;
-static BLECharacteristic *mCharSensorImuSensor = NULL;
-static BLECharacteristic *mCharMiscStatusInfo = NULL;
-static BLECharacteristic *mCharSensorAllData = NULL;
+BLECharacteristic *mCharSensorFloorSensors = NULL;
+BLECharacteristic *mCharSensorDistanceSensors = NULL;
+BLECharacteristic *mCharSensorImuSensor = NULL;
+BLECharacteristic *mCharMiscStatusInfo = NULL;
+BLECharacteristic *mCharSensorAllData = NULL;
 
 
 class MyBLEServerCallbacks: public BLEServerCallbacks {
@@ -214,7 +216,7 @@ void hsvTorgb(float h_in, float s_in, float v_in, uint8_t &r_out, uint8_t &g_out
 class MyMiscSetColorLEDCallbacks: public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *pCharacteristic) {
     std::string value = pCharacteristic->getValue();
-    if(value.length() == 6) {
+    if(value.length() == 6) {     
       uint8_t left_r = value[0];
       uint8_t left_g = value[1];
       uint8_t left_b = value[2];
@@ -242,7 +244,7 @@ class MyMiscSetColorLEDCallbacks: public BLECharacteristicCallbacks {
 class MyMiscPlaySoundCallbacks: public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *pCharacteristic) {
     std::string value = pCharacteristic->getValue();
-    if(value.length() == 6) {
+    if(value.length() == 1) {
       
     }
   }
@@ -252,8 +254,13 @@ class MyMiscSetTextOLEDCallbacks: public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *pCharacteristic) {
     std::string value = pCharacteristic->getValue();
 
-    display_text = value.c_str();
-    request_display_text = 1;   
+    if(value != "_!_!_!") {
+      display_text = value.c_str();
+      request_display_text = 1;
+    } 
+    else {
+      status_text_displayed = 1;
+    }
   }
 };
 
@@ -261,22 +268,22 @@ class MyMiscSetImageOLEDCallbacks: public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *pCharacteristic) {
     std::string value = pCharacteristic->getValue();
 
-    display_image_index = value[0];
-    request_display_image = 1;
+    if(value.length() == 1) {
+      display_image_index = value[0];
+      request_display_image = 1;
+    }
   }
 };
 
 
-void scratch_setup() {
+void setup() {
   // put your setup code here, to run once:
   edubot.begin(115200);
   Serial.println("===============\nStarting BLE work!");
 
-  BLEDevice::init("OROCA_EduBot");
-  
+  BLEDevice::init("OROCA EduBot");
   BLEServer *mServer = BLEDevice::createServer();
   mServer->setCallbacks(new MyBLEServerCallbacks());
-
   
   BLEAddress addr = BLEDevice::getAddress();  
   memcpy(ble_mac_addr, *addr.getNative(), 6);
@@ -449,7 +456,7 @@ void scratch_setup() {
 }
 
 
-void scratch_loop() {
+void loop() {
   // put your main code here, to run repeatedly:
   delay(10);
 
@@ -457,7 +464,7 @@ void scratch_loop() {
   status_led_count++;
   if(status_led_count > 50) {
     if(device_connected) {
-      edubot.ledOff();
+      edubot.ledOn();
 
       if(status_text_displayed) {
         edubot.lcd.setCursor(0, 32);
@@ -533,16 +540,17 @@ void scratch_loop() {
 
   // Update Sensors
   status_update_sensors_count++;
-  //if(status_update_sensors_count > 5) 
-  {
+  if(status_update_sensors_count > 5) {
     
     value_sensor_floor_sensors[0] = edubot.floor_sensor.getRightOut();
     value_sensor_floor_sensors[1] = edubot.floor_sensor.getRightIn();
     value_sensor_floor_sensors[2] = edubot.floor_sensor.getLeftIn();
     value_sensor_floor_sensors[3] = edubot.floor_sensor.getLeftOut();
+    mCharSensorFloorSensors->setValue((uint8_t*)&value_sensor_floor_sensors, 4);
 
     value_sensor_distance_sensors[0] = edubot.tof_L.distance_mm;
     value_sensor_distance_sensors[1] = edubot.tof_R.distance_mm;
+    mCharSensorDistanceSensors->setValue((uint8_t*)&value_sensor_distance_sensors, 4);
 
     value_sensor_imu_sensor[0] = (int16_t)(edubot.imu.getRoll()  * 100.0);
     value_sensor_imu_sensor[1] = (int16_t)(edubot.imu.getPitch() * 100.0);
@@ -554,11 +562,19 @@ void scratch_loop() {
     value_sensor_imu_sensor[7] = (int16_t)(edubot.imu.getGyroY() * 100.0);
     value_sensor_imu_sensor[8] = (int16_t)(edubot.imu.getGyroZ() * 100.0);
 
+    mCharSensorImuSensor->setValue((uint8_t*)&value_sensor_imu_sensor, 18);
+
+    if(device_connected) {
+      mCharSensorFloorSensors->notify(); 
+      mCharSensorDistanceSensors->notify(); 
+      mCharSensorImuSensor->notify();
+    }
+
     status_update_sensors_count = 0;    
   }
 
   status_update_all_count++;
-  if(status_update_all_count > 2) {
+  if(status_update_all_count > 5) {
     memcpy(&value_sensor_all_data[0], value_misc_status_info, 4);
     memcpy(&value_sensor_all_data[4], value_sensor_floor_sensors, 4);
     memcpy(&value_sensor_all_data[8], value_sensor_distance_sensors, 4);
@@ -571,4 +587,6 @@ void scratch_loop() {
     
     status_update_all_count = 0;
   }
+}
+
 }

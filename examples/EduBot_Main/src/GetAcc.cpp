@@ -1,14 +1,15 @@
 #include <EduBot.h>
 
 
+namespace AppGetAcc
+{
 
-
-void getacc_setup() {
+void setup() {
   // put your setup code here, to run once: 
   edubot.begin(115200);                                   
 }
 
-void getacc_loop() {
+void loop() {
   // put your main code here, to run repeatedly:
   static uint32_t pre_time; 
 
@@ -32,4 +33,6 @@ void getacc_loop() {
     Serial.print(edubot.imu.getAccZ());
     Serial.println();    
   }   
+}
+
 }

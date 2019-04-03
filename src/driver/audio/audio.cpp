@@ -1,5 +1,5 @@
 #include "audio.h"
-
+#include "MAX98357.h"
 
 
 #define PLAY_FILE     0

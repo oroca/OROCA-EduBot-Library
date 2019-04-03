@@ -1,10 +1,10 @@
 #include <EduBot.h>
 
 
+namespace AppStepMotor
+{
 
-
-
-void stepmotor_setup() {
+void setup() {
   // put your setup code here, to run once:
   int step_len = 500;
   
@@ -49,6 +49,8 @@ void stepmotor_setup() {
   delay(1000);    
 }
 
-void stepmotor_loop() {
+void loop() {
   // put your main code here, to run repeatedly: 
+}
+
 }

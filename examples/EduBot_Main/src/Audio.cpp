@@ -1,17 +1,21 @@
 #include <EduBot.h>
 
 
+
+namespace AppAudio
+{
+
 extern const int16_t data[];
 
 
-void audio_setup() {
+void setup() {
   // put your setup code here, to run once: 
   edubot.begin(115200);  
 
   edubot.audio.playBuff((uint8_t *)data, 19226*2, true);                                 
 }
 
-void audio_loop() {
+void loop() {
   // put your main code here, to run repeatedly:  
 
   edubot.lcd.clearDisplay();
@@ -2437,3 +2441,4 @@ const int16_t data[NUM_ELEMENTS] = {
   0,   0};// 19224-19225
 
 
+}

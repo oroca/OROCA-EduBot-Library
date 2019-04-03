@@ -2,16 +2,18 @@
 
 
 
+namespace AppLineTrace
+{
 
 static int step_speed = 90;
 
-void linetrace_setup() {
+void setup() {
   // put your setup code here, to run once:
   
   edubot.begin(115200);                                     
 }
 
-void linetrace_loop() {
+void loop() {
   // put your main code here, to run repeatedly
   int x = 0;
   int y = 0;
@@ -89,4 +91,6 @@ void linetrace_loop() {
     mode++;
     mode %= 3;
   }  
+}
+
 }

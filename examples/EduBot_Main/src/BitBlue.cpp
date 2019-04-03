@@ -1,12 +1,14 @@
 /* Authors: byeongkyu, baram */
-
-#define EDUBOT_DRIVER_BLE
-
 #include <EduBot.h>
+#include <BLEDevice.h>
+#include <BLEUtils.h>
+#include <BLEServer.h>
+#include <BLE2902.h>
 #include <image/EduBoy.h>
 
 
-
+namespace AppBitBlue
+{
 
 #define HM10_SERVICE_UUID                  "0000ffe0-0000-1000-8000-00805f9b34fb"
 #define HM10_CHARACTERISTIC_UUID           "0000ffe1-0000-1000-8000-00805f9b34fb"
@@ -84,7 +86,7 @@ static void drawLcdConnected(bool connected);
 static void loopUpdate(bool run);
 
 
-void bitblue_setup() {
+void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);  
 
@@ -128,7 +130,7 @@ void bitblue_setup() {
 }
 
 
-void bitblue_loop() {
+void loop() {
   // put your main code here, to run repeatedly:
   static uint8_t state = 0;
   static bool pre_connected = device_connected;
@@ -242,4 +244,6 @@ void loopUpdate(bool run)
       edubot.motor.setSpeed(left_speed/2, right_speed/2);      
     }
   }
+}
+
 }

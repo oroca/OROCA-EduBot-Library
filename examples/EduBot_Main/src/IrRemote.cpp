@@ -1,15 +1,17 @@
 #include <EduBot.h>
 
 
+namespace AppIrRemote
+{
 
-void irremote_setup() {
+void setup() {
   // put your setup code here, to run once:
   
   edubot.begin(115200);   
   edubot.tofEnd();                                
 }
 
-void irremote_loop() {
+void loop() {
   // put your main code here, to run repeatedly
 
   if (edubot.ir_remote.available() > 0)
@@ -27,4 +29,6 @@ void irremote_loop() {
     edubot.lcd.printf(0, 16,"0x%X", key_code);
     edubot.lcd.display();
   }
+}
+
 }

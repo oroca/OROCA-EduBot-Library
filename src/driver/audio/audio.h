@@ -2,7 +2,6 @@
 #define _AUDIO_H_
 
 #include <Arduino.h>
-#include "MAX98357.h"
 #include "SPIFFS.h"  
 
 

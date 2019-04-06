@@ -34,6 +34,7 @@ class StepMotor
     void setStep(int32_t value, int32_t max_speed = 0, bool accel = true);
     bool isBusy(void);
     uint32_t getMaxSpeed(void);
+    int32_t getStepCount(void) { return step_count; }
 
     int32_t  step_count;
     int32_t  index;

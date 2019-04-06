@@ -14,6 +14,9 @@
 
 
 
+
+
+
 void taskUpdate( void *pvParameters );
 
 void taskUpdate(void *pvParameters) 
@@ -177,7 +180,13 @@ bool EduBot::update(void)
       imu.update();
     }
     tof_L.update();
-    tof_R.update();    
+    tof_R.update();        
+  }
+
+  if (cur_time-pre_time[1] >= 50)
+  {
+    pre_time[1] = cur_time;
+    motor.update();
   }
 
   adcInfoUpdate();
@@ -268,7 +277,6 @@ uint8_t EduBot::batteryGetVoltage(void)
 
   return value;
 }
-
 
 void EduBot::menuAdd(const char *menu_str, void (*setup_func)(void), void (*loop_func)(void))
 {

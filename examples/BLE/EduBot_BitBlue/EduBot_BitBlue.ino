@@ -138,6 +138,10 @@ void loop() {
   }
   pre_connected = device_connected;
 
+  if (edubot.buttonGetPressed() == true)
+  {
+    edubot.motor.clearLocation();
+  }
   switch(state)
   {
     case 0:
@@ -151,6 +155,12 @@ void loop() {
 
     case 1:
       loopUpdate(true);
+
+      edubot.lcd.clearDisplay();
+      edubot.lcd.printf(16, (16*0), "X: %3.1f mm", edubot.motor.getX());
+      edubot.lcd.printf(16, (16*1), "Y: %3.1f mm", edubot.motor.getY());  
+      edubot.lcd.printf(16, (16*2), "D: %3.1f deg", edubot.motor.getAngle());    
+      edubot.lcd.display();    
       break;
 
     case 99:

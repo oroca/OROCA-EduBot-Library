@@ -22,18 +22,18 @@ typedef struct
   uint8_t buffer[20];  
 } rx_buffer_t;
 
-static uint32_t rx_len = 16;
-static uint32_t rx_in = 0;
-static uint32_t rx_out = 0;
-static rx_buffer_t rx_buffer[16];
+uint32_t rx_len = 16;
+uint32_t rx_in = 0;
+uint32_t rx_out = 0;
+rx_buffer_t rx_buffer[16];
 
 
 
-static bool device_connected = false;
-static uint8_t ble_mac_addr[6] = {0, };
+bool device_connected = false;
+uint8_t ble_mac_addr[6] = {0, };
 
 
-static BLECharacteristic *mHM10Char = NULL;
+BLECharacteristic *mHM10Char = NULL;
 
 
 
@@ -82,8 +82,6 @@ class HM10Callbacks: public BLECharacteristicCallbacks {
 
 };
 
-static void drawLcdConnected(bool connected);
-static void loopUpdate(bool run);
 
 
 void setup() {
@@ -142,6 +140,10 @@ void loop() {
   }
   pre_connected = device_connected;
 
+  if (edubot.buttonGetPressed() == true)
+  {
+    edubot.motor.clearLocation();
+  }
   switch(state)
   {
     case 0:
@@ -155,6 +157,12 @@ void loop() {
 
     case 1:
       loopUpdate(true);
+
+      edubot.lcd.clearDisplay();
+      edubot.lcd.printf(16, (16*0), "X: %3.1f mm", edubot.motor.getX());
+      edubot.lcd.printf(16, (16*1), "Y: %3.1f mm", edubot.motor.getY());  
+      edubot.lcd.printf(16, (16*2), "D: %3.1f deg", edubot.motor.getAngle());    
+      edubot.lcd.display();    
       break;
 
     case 99:

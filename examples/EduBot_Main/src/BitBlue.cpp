@@ -35,6 +35,8 @@ uint8_t ble_mac_addr[6] = {0, };
 
 BLECharacteristic *mHM10Char = NULL;
 
+void drawLcdConnected(bool connected);
+void loopUpdate(bool run);
 
 
 class MyBLEServerCallbacks: public BLEServerCallbacks {

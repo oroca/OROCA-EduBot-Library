@@ -1,5 +1,3 @@
-#ifndef OROCA_EDUBOY_H_
-#define OROCA_EDUBOY_H_
 
 #include "face/FaceSmile.h"
 #include "face/FaceLeft.h"
@@ -8,4 +6,15 @@
 #include "face/FaceSleep.h"
 #include "face/FaceSad.h"
 
-#endif
+typedef enum
+{
+	IDLE,
+	SLEEP, 
+	SMILE, 
+	LEFT, 
+	RIGHT,
+	SPEAKER,
+	SAD1,
+	SAD2 
+} face_t;
+

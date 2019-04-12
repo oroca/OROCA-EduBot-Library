@@ -4,7 +4,7 @@
 #include <BLE2902.h>
 #include <EduBot.h>
 #include <image/EduBoy.h>
-
+#include <image/EduBotFace.h>
 
 namespace AppScratch
 {
@@ -35,6 +35,8 @@ int8_t value_motor_set_accel[2] = {0, 0};
 uint8_t value_sensor_floor_sensors[4] = {0, 0, 0, 0};
 uint16_t value_sensor_distance_sensors[2] = {0, 0};
 int16_t value_sensor_imu_sensor[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+face_t face_state = IDLE ;
+face_t prev_face_state = IDLE ;
 
 // packet index
 // robot_is_moving
@@ -56,9 +58,10 @@ bool status_text_displayed = false;
 std::string display_text = "";
 int8_t request_display_text = 0;
 uint8_t display_image_index = 0;
-int8_t request_display_image = 0;
+int8_t request_display_image = 1;
 
 int8_t request_motor_wait_result = 0;
+int8_t face_smile_count = 0 ;
 
 BLECharacteristic *mCharSensorFloorSensors = NULL;
 BLECharacteristic *mCharSensorDistanceSensors = NULL;
@@ -99,6 +102,14 @@ class MyMotorSetSpeedCallbacks: public BLECharacteristicCallbacks {
       int16_t r_speed  = (value[2] << 8) + value[3];
       int16_t delay_ms = (value[4] << 8) + value[5];
 
+      if(( r_speed == 0 && l_speed == 0)||( r_speed == l_speed )){
+		face_state = SMILE;
+		face_smile_count = 0 ;
+      }else if( r_speed < l_speed ){
+		face_state = LEFT;
+      }else if( r_speed  > l_speed ){
+		face_state = RIGHT;
+      }
       edubot.motor.setSpeed(max(min((int)l_speed, 300), -300), max(min((int)r_speed, 300), -300), max((int)delay_ms, 0));
     }
   }
@@ -467,26 +478,31 @@ void loop() {
       edubot.ledOn();
 
       if(status_text_displayed) {
-        edubot.lcd.setCursor(0, 32);
-        edubot.lcd.println("Ready for BLE");
-        edubot.lcd.display();
-        edubot.lcd.clearDisplay();
+        //edubot.lcd.setCursor(0, 32);
+        //edubot.lcd.println("Ready for BLE"); 
+	//edubot.lcd.display();
+	//edubot.lcd.clearDisplay();	
         status_text_displayed = false;
+	edubot.lcd.drawBitmap(0, 0, face_smile, 128, 64, 0, 1);
+	edubot.lcd.display();
+	face_state = SMILE ;
+	face_smile_count = 0 ;
       }
     }
     else {
       edubot.ledToggle();
+      face_state = IDLE ;
 
       if(!status_text_displayed) {
+        edubot.lcd.clearDisplay();
         edubot.lcd.setCursor(0, 20);
         edubot.lcd.println("OROCA_EduBot");
         char buf[20];
         sprintf(buf, "%X:%X:%X:%X:%X:%X", 
           ble_mac_addr[0], ble_mac_addr[1], ble_mac_addr[2], ble_mac_addr[3], ble_mac_addr[4], ble_mac_addr[5]);
         edubot.lcd.println(std::string(buf).c_str());
-        edubot.lcd.println("\nWait for connection!");
-        edubot.lcd.display();
-        edubot.lcd.clearDisplay();
+        edubot.lcd.println("\nWait for connection!");        
+     	edubot.lcd.display();
         status_text_displayed = true;
       } 
     }
@@ -502,11 +518,40 @@ void loop() {
   }
 
   if(request_display_image) {
-    edubot.lcd.drawBitmap((128-48)/2, (64-48)/2, &edubot_logo[display_image_index*48*48/8], 48, 48, 1);
-    edubot.lcd.display();
-    edubot.lcd.clearDisplay();
+    //edubot.lcd.drawBitmap((128-48)/2, (64-48)/2, &edubot_logo[display_image_index*48*48/8], 48, 48, 1);
+    //edubot.lcd.display();
+    //edubot.lcd.clearDisplay();
 
-    request_display_image = 0;
+    //request_display_image = 0;
+    
+    if( device_connected && (face_state != prev_face_state) ) {	
+
+	if (face_state == SMILE ) {	
+	    edubot.lcd.drawBitmap(0, 0, face_smile, 128, 64, 0, 1);
+	}else if ( face_state == SLEEP ){
+	    edubot.lcd.drawBitmap(0, 0, face_sleep, 128, 64, 0, 1);	    
+	    edubot.lcd.display();
+	    delay(100);
+	    face_state = SMILE ;
+	    face_smile_count = 0;
+	    edubot.lcd.drawBitmap(0, 0, face_smile, 128, 64, 0, 1);
+	}else if ( face_state == LEFT ) {
+	    edubot.lcd.drawBitmap(0, 0, face_left, 128, 64, 0, 1);
+	}else if ( face_state == RIGHT ) {
+	    edubot.lcd.drawBitmap(0, 0, face_right, 128, 64, 0, 1);
+	}   
+	edubot.lcd.display();
+    }
+
+    prev_face_state = face_state ;
+    //make eye blinking animation
+    if( 300 < face_smile_count){
+	face_state = SLEEP ;
+    }
+    if( face_state == SMILE ){
+    	face_smile_count ++ ;
+    }
+
   }
 
   // Status Info

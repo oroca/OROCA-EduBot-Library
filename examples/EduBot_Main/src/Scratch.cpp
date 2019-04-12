@@ -4,15 +4,97 @@
 #include <BLE2902.h>
 #include <EduBot.h>
 #include <image/EduBoy.h>
+#include <image/EduBotFace.h>
 
 
 namespace AppScratch
 {
 
+
+enum 
+{
+  IMG_OROCA_LOGO_1 = 0,   // 0
+  IMG_OROCA_LOGO_2,       // 1
+  IMG_OROCA_LOGO_3,       // 2
+  IMG_OROCA_LOGO_4,       // 3
+  IMG_FACE_LEFT,          // 4
+  IMG_FACE_RIGHT,         // 5
+  IMG_FACE_SAD_1,         // 6
+  IMG_FACE_SAD_2,         // 7
+  IMG_FACE_SLEEP,         // 8
+  IMG_FACE_SMILE,         // 9
+  IMG_FACE_SPEAK,         // 10
+
+  IMG_FACE_LEFT_INV,      // 11
+  IMG_FACE_RIGHT_INV,     // 12
+  IMG_FACE_SAD_1_INV,     // 13
+  IMG_FACE_SAD_2_INV,     // 14
+  IMG_FACE_SLEEP_INV,     // 15
+  IMG_FACE_SMILE_INV,     // 16
+  IMG_FACE_SPEAK_INV,     // 17
+
+  IMG_EDUBOT_MAX
+} EduBotImage;
+
+typedef struct 
+{
+  uint16_t x;
+  uint16_t y;
+  uint16_t width;
+  uint16_t height;
+  uint8_t *p_data;
+  uint8_t  color;
+} img_tbl_t;
+
+
+static const img_tbl_t img_tbl[IMG_EDUBOT_MAX] = 
+{
+  {(128-48)/2, (64-48)/2, 48, 48, (uint8_t *)&edubot_logo[0*48*48/8], 1},
+  {(128-48)/2, (64-48)/2, 48, 48, (uint8_t *)&edubot_logo[1*48*48/8], 1},
+  {(128-48)/2, (64-48)/2, 48, 48, (uint8_t *)&edubot_logo[2*48*48/8], 1},
+  {(128-48)/2, (64-48)/2, 48, 48, (uint8_t *)&edubot_logo[3*48*48/8], 1},
+
+  {0, 0, 128, 64, (uint8_t *)&face_left[0], 1},
+  {0, 0, 128, 64, (uint8_t *)&face_right[0], 1},
+  {0, 0, 128, 64, (uint8_t *)&face_sad1[0], 1},
+  {0, 0, 128, 64, (uint8_t *)&face_sad2[0], 1},
+  {0, 0, 128, 64, (uint8_t *)&face_sleep[0], 1},
+  {0, 0, 128, 64, (uint8_t *)&face_smile[0], 1},
+  {0, 0, 128, 64, (uint8_t *)&face_speak[0], 1},
+
+  {0, 0, 128, 64, (uint8_t *)&face_left[0], 0},
+  {0, 0, 128, 64, (uint8_t *)&face_right[0], 0},
+  {0, 0, 128, 64, (uint8_t *)&face_sad1[0], 0},
+  {0, 0, 128, 64, (uint8_t *)&face_sad2[0], 0},
+  {0, 0, 128, 64, (uint8_t *)&face_sleep[0], 0},
+  {0, 0, 128, 64, (uint8_t *)&face_smile[0], 0},
+  {0, 0, 128, 64, (uint8_t *)&face_speak[0], 0},
+};
+
+
+void drawEdubotImage(uint16_t index)
+{
+  img_tbl_t *p_img = (img_tbl_t *)&img_tbl[index];
+
+  if (index >= IMG_EDUBOT_MAX)
+  {
+    return;
+  }
+
+  edubot.lcd.drawBitmap(p_img->x, p_img->y, p_img->p_data, p_img->width, p_img->height, p_img->color, !p_img->color);
+}
+
+
+
+
+//---
+
+
 #define MOTOR_SERVICE_UUID                           "e005"
 #define MOTOR_CHARACTERISTIC_SET_STEP_UUID           "34443c33-3356-11e9-b210-d663bd873d93"
 #define MOTOR_CHARACTERISTIC_SET_SPEED_UUID          "34443c34-3356-11e9-b210-d663bd873d93"
 #define MOTOR_CHARACTERISTIC_SET_DISTANCE_UUID       "34443c35-3356-11e9-b210-d663bd873d93"
+#define MOTOR_CHARACTERISTIC_SET_ROTATION_UUID       "34443c40-3356-11e9-b210-d663bd873d93"
 #define MOTOR_CHARACTERISTIC_SET_ACCEL_UUID          "34443c36-3356-11e9-b210-d663bd873d93"
 
 #define MISC_SERVICE_UUID                            "e006"
@@ -112,11 +194,20 @@ class MyMotorSetDistanceCallbacks: public BLECharacteristicCallbacks {
       int16_t r_distance  = (value[2] << 8) + value[3];
       int16_t max_vel = (value[4] << 8) + value[5];
 
+      edubot.motor.setDistanceNoWait(l_distance, r_distance, max(min((int)max_vel, 300), 0));
+      request_motor_wait_result = 1;
+    }
+  }
+};
 
-      int32_t l_step = edubot.motor.distanceToStep(l_distance);
-      int32_t r_step = edubot.motor.distanceToStep(r_distance);
+class MyMotorSetRotationCallbacks: public BLECharacteristicCallbacks {
+  void onWrite(BLECharacteristic *pCharacteristic) {
+    std::string value = pCharacteristic->getValue();
+    if(value.length() == 4) {
+      int16_t rotation  = (value[0] << 8) + value[1];
+      int16_t max_vel = (value[4] << 8) + value[5];
 
-      edubot.motor.setStepNoWait(l_step, r_step, max(min((int)max_vel, 300), 0));
+      edubot.motor.setRotationNoWait((float)rotation, max(min((int)max_vel, 300), 0));
       request_motor_wait_result = 1;
     }
   }
@@ -319,6 +410,15 @@ void setup() {
   mCharMotorSetDistance->addDescriptor(mDescMotorSetDistance);
   mCharMotorSetDistance->setCallbacks(new MyMotorSetDistanceCallbacks());
 
+  // Set Rotation
+  BLECharacteristic *mCharMotorSetRotation = mServiceMotor->createCharacteristic(
+                                         MOTOR_CHARACTERISTIC_SET_ROTATION_UUID,
+                                         BLECharacteristic::PROPERTY_WRITE_NR);
+  BLEDescriptor *mDescMotorSetRotation = new BLEDescriptor((uint16_t)0x2901); // Characteristic User Description
+  mDescMotorSetRotation->setValue("Motor SetRotation");  
+  mCharMotorSetRotation->addDescriptor(mDescMotorSetRotation);
+  mCharMotorSetRotation->setCallbacks(new MyMotorSetRotationCallbacks());
+
   value_motor_set_accel[0] = 1;
   value_motor_set_accel[1] = 1;
 
@@ -502,7 +602,7 @@ void loop() {
   }
 
   if(request_display_image) {
-    edubot.lcd.drawBitmap((128-48)/2, (64-48)/2, &edubot_logo[display_image_index*48*48/8], 48, 48, 1);
+    drawEdubotImage(display_image_index);
     edubot.lcd.display();
     edubot.lcd.clearDisplay();
 

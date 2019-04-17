@@ -13,7 +13,7 @@
 #include "./driver/driver.h"
 
 
-#define EDUBOT_VER_STR            "EduBot V190201R2"
+#define EDUBOT_VER_STR            "EduBot V19041R1"
 
 #define EDUBOT_OK                 0
 #define EDUBOT_ERR_INIT_IMU       1
@@ -64,13 +64,12 @@ class EduBot
     // for Extention Board
     IrRemote  ir_remote;
     OLed      lcd;
-#ifdef EDUBOT_DRIVER_BLE
-    BLE       ble;
-#endif
     NeoPixel  led;
     VL53L0X   tof_L;
     VL53L0X   tof_R;
     Floor     floor_sensor;
+
+    WifiEduBot wifi;
 
     bool begin(int baud);
     bool update(void);
@@ -91,12 +90,12 @@ class EduBot
   private:
     bool printInitLog(const char *str_msg, bool ret);
     bool menuDraw(menu_t *p_menu);
+
     bool is_init;
 
     uint32_t pre_time[8];
     menu_t menu;
     menu_t *p_menu;
-    
 };
 
 extern EduBot edubot;

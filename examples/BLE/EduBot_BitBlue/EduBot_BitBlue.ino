@@ -1,9 +1,10 @@
 /* Authors: byeongkyu, baram */
-
-#define EDUBOT_DRIVER_BLE
-
 #include <EduBot.h>
-#include <image/EduBoy.h>
+#include <BLEDevice.h>
+#include <BLEUtils.h>
+#include <BLEServer.h>
+#include <BLE2902.h>
+
 
 
 

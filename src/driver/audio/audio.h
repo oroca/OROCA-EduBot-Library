@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "SPIFFS.h"  
-
+#include "AudioMp3.h"
 
 
 #define AUDIO_SAMPLE_8BIT     I2S_BITS_PER_SAMPLE_8BIT
@@ -57,17 +57,25 @@ class Audio
     Audio();
     ~Audio();
     
+
+    Mp3Audio::Audio mp3;
+
     bool begin(void);
     bool isInit(void);
 
     bool playFile(char *p_name, bool wait);
     bool playBuff(uint8_t *p_buff, uint32_t length, bool wait);
+    bool playTTS(String tts, String lang, bool wait=true);
+    bool playURL(String url);
     void playStop(void);
     void waitStop(void);
     bool isBusy(void);
+    void setVolume(uint8_t vol);
 
-  private:
+
     
+  private:
+
     
 };
 

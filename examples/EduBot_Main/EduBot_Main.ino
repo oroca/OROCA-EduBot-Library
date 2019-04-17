@@ -13,6 +13,9 @@ namespace AppNeoPixel     { extern void setup(); extern void loop(); }
 namespace AppIrRemote     { extern void setup(); extern void loop(); }
 namespace AppBattery      { extern void setup(); extern void loop(); }
 namespace AppBitBlue      { extern void setup(); extern void loop(); }
+namespace AppPlayTTS      { extern void setup(); extern void loop(); }
+namespace AppPlayRadio    { extern void setup(); extern void loop(); }
+namespace AppWifiSetup    { extern void setup(); extern void loop(); }
 
  
 void setup() {
@@ -30,7 +33,10 @@ void setup() {
   edubot.menuAdd("Audio",       AppAudio::setup,       AppAudio::loop);  
   edubot.menuAdd("NeoPixel",    AppNeoPixel::setup,    AppNeoPixel::loop);  
   edubot.menuAdd("IrRemote",    AppIrRemote::setup,    AppIrRemote::loop);  
-  edubot.menuAdd("Battery",     AppBattery::setup, AppBattery::loop);  
+  edubot.menuAdd("Battery",     AppBattery::setup,     AppBattery::loop);  
+  edubot.menuAdd("PlayTTS",     AppPlayTTS::setup,     AppPlayTTS::loop);  
+  edubot.menuAdd("PlayRadio",   AppPlayRadio::setup,   AppPlayRadio::loop);  
+  edubot.menuAdd("WiFi Setup",  AppWifiSetup::setup,   AppWifiSetup::loop);  
 }
 
 void loop() {

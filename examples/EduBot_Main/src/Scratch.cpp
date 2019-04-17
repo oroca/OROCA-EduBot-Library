@@ -142,9 +142,9 @@ int8_t request_display_image = 0;
 
 int8_t request_motor_wait_result = 0;
 
-BLECharacteristic *mCharSensorFloorSensors = NULL;
-BLECharacteristic *mCharSensorDistanceSensors = NULL;
-BLECharacteristic *mCharSensorImuSensor = NULL;
+//BLECharacteristic *mCharSensorFloorSensors = NULL;
+//BLECharacteristic *mCharSensorDistanceSensors = NULL;
+//BLECharacteristic *mCharSensorImuSensor = NULL;
 BLECharacteristic *mCharMiscStatusInfo = NULL;
 BLECharacteristic *mCharSensorAllData = NULL;
 
@@ -499,6 +499,7 @@ void setup() {
   BLEService *mServiceSensor = mServer->createService(BLEUUID(SENSOR_SERVICE_UUID), 20);
 
   // Floor Sensor
+  /*
   mCharSensorFloorSensors = mServiceSensor->createCharacteristic(
                                          SENSOR_CHARACTERISTIC_FLOOR_SENSORS_UUID,
                                          BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
@@ -507,7 +508,9 @@ void setup() {
   mDescSensorFloorSensors->setValue("Floor Sensors");  
   mCharSensorFloorSensors->addDescriptor(mDescSensorFloorSensors);
   mCharSensorFloorSensors->addDescriptor(new BLE2902());
+  */
 
+  /*
   // Distance Sensor
   mCharSensorDistanceSensors = mServiceSensor->createCharacteristic(
                                          SENSOR_CHARACTERISTIC_DISTANCE_SENSOR_UUID,
@@ -517,8 +520,10 @@ void setup() {
   mDescSensorDistanceSensors->setValue("Distance Sensors");  
   mCharSensorDistanceSensors->addDescriptor(mDescSensorDistanceSensors);
   mCharSensorDistanceSensors->addDescriptor(new BLE2902());
+  */
 
   // Imu Sensor
+  /*
   mCharSensorImuSensor = mServiceSensor->createCharacteristic(
                                          SENSOR_CHARACTERISTIC_IMU_SENSOR_UUID,
                                          BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
@@ -527,6 +532,7 @@ void setup() {
   mDescSensorImuSensor->setValue("Imu Sensor");  
   mCharSensorImuSensor->addDescriptor(mDescSensorImuSensor);
   mCharSensorImuSensor->addDescriptor(new BLE2902());
+  */
 
   // All Data
   mCharSensorAllData = mServiceSensor->createCharacteristic(
@@ -646,11 +652,11 @@ void loop() {
     value_sensor_floor_sensors[1] = edubot.floor_sensor.getRightIn();
     value_sensor_floor_sensors[2] = edubot.floor_sensor.getLeftIn();
     value_sensor_floor_sensors[3] = edubot.floor_sensor.getLeftOut();
-    mCharSensorFloorSensors->setValue((uint8_t*)&value_sensor_floor_sensors, 4);
+    //mCharSensorFloorSensors->setValue((uint8_t*)&value_sensor_floor_sensors, 4);
 
     value_sensor_distance_sensors[0] = edubot.tof_L.distance_mm;
     value_sensor_distance_sensors[1] = edubot.tof_R.distance_mm;
-    mCharSensorDistanceSensors->setValue((uint8_t*)&value_sensor_distance_sensors, 4);
+    //mCharSensorDistanceSensors->setValue((uint8_t*)&value_sensor_distance_sensors, 4);
 
     value_sensor_imu_sensor[0] = (int16_t)(edubot.imu.getRoll()  * 100.0);
     value_sensor_imu_sensor[1] = (int16_t)(edubot.imu.getPitch() * 100.0);
@@ -662,12 +668,12 @@ void loop() {
     value_sensor_imu_sensor[7] = (int16_t)(edubot.imu.getGyroY() * 100.0);
     value_sensor_imu_sensor[8] = (int16_t)(edubot.imu.getGyroZ() * 100.0);
 
-    mCharSensorImuSensor->setValue((uint8_t*)&value_sensor_imu_sensor, 18);
+    //mCharSensorImuSensor->setValue((uint8_t*)&value_sensor_imu_sensor, 18);
 
     if(device_connected) {
-      mCharSensorFloorSensors->notify(); 
-      mCharSensorDistanceSensors->notify(); 
-      mCharSensorImuSensor->notify();
+      //mCharSensorFloorSensors->notify(); 
+      //mCharSensorDistanceSensors->notify(); 
+      //mCharSensorImuSensor->notify();
     }
 
     status_update_sensors_count = 0;    

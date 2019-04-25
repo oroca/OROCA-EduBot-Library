@@ -1,70 +1,54 @@
 #include <EduBot.h>
-#include <image/EduBotFace.h>
+#include "animation.h"
 
-bool buttonGetPressed(void);
-bool cur_press_state = false;
-bool prev_press_state = false;
-int count = 0 ;
-unsigned char face1 [1024] ;
-unsigned char face2 [1024] ;
+static int anim_num = 9;
+static bool buttonGetPressed(void);
+static bool cur_press_state = false;
+static bool prev_press_state = false;
+static int count = 0 ;
+static Animation anim ;
 
 void setup() {
   // put your setup code here, to run once:
-  edubot.begin(115200);    
-  Serial.begin(115200);  
+  edubot.begin(115200); 
+  delay(100);
   // for Unser Button
   pinMode(0, INPUT_PULLUP);  
-  count = 0 ;
-  
-  copy_arr(face1, face_smile, 1024);
-  copy_arr(face2, face_sleep, 1024);
-
-  edubot.lcd.drawBitmap(0, 0, face1, 128, 64, 0, 1);
-  edubot.lcd.display();
-  delay(500);
-  edubot.lcd.drawBitmap(0, 0, face2, 128, 64, 0, 1);
-  edubot.lcd.display();
-  delay(500);
-  
+  // for anim
+  count = 5 ;
+  anim.begin(); 
+  anim.set(IMG_FACE_Rabbit_SLEEP_INV,100,IMG_FACE_Rabbit_IDLE1_INV,3000);   
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-
-  edubot.lcd.drawBitmap(0, 0, face1, 128, 64, 0, 1);
-  edubot.lcd.display();
-  delay(500);
-  edubot.lcd.drawBitmap(0, 0, face2, 128, 64, 0, 1);
-  edubot.lcd.display();
-  delay(500);
+void loop() {  
+  anim.play(); 
 
   cur_press_state = buttonGetPressed() ;
-
-  if( cur_press_state && !prev_press_state ){
-    count = count + 1 ;  
+  if( cur_press_state && !prev_press_state ){ 
+    count = count + 1 ;        
+    if (( count % anim_num )== 0 ){
+      anim.set(IMG_FACE_SMILE_INV, 1000 , IMG_FACE_SLEEP_INV, 500 );
+    }else if ( ( count % anim_num ) == 1 ){
+      anim.set(IMG_FACE_SMILE_INV, 1000 , IMG_FACE_LEFT_INV, 500 );     
+    }else if ( ( count % anim_num ) == 2 ){
+      anim.set(IMG_FACE_SMILE_INV, 1000 , IMG_FACE_RIGHT_INV, 500 );
+    }else if ( ( count % anim_num ) == 3 ){
+      anim.set(IMG_FACE_SMILE_INV, 1000 , IMG_FACE_SPEAK_INV, 500 ); 
+    }else if ( ( count % anim_num ) == 4 ){
+      anim.set(IMG_FACE_SAD_1_INV, 1000 , IMG_FACE_SAD_2_INV, 500 );  
+    }else if ( ( count % anim_num ) == 5 ){
+      anim.set(IMG_FACE_Rabbit_IDLE1_INV, 100 , IMG_FACE_Rabbit_SLEEP_INV, 3000 );  
+    }else if ( ( count % anim_num ) == 6 ){
+      anim.set(IMG_FACE_Rabbit_IDLE1_INV, 1000 , IMG_FACE_Rabbit_IDLE2_INV, 500 );  
+    }else if ( ( count % anim_num ) == 7 ){
+      anim.set(IMG_FACE_Rabbit_IDLE1_INV, 1000 , IMG_FACE_Rabbit_LAUGH1_INV, 500 );  
+    }else if ( ( count % anim_num ) == 8 ){
+      anim.set(IMG_FACE_Rabbit_LAUGH1_INV, 1000 , IMG_FACE_Rabbit_LAUGH2_INV, 500 );  
+    }             
+    
   }
-
   prev_press_state = cur_press_state ;
-
-    if (( count % 6 )== 0 ){
-      copy_arr(face1, face_smile, 1024);
-      copy_arr(face2, face_sleep, 1024); 
-    }else if ( ( count % 6 ) == 1 ){
-      copy_arr(face1, face_smile, 1024);
-      copy_arr(face2, face_left, 1024);      
-    }else if ( ( count % 6 ) == 2 ){
-      copy_arr(face1, face_smile, 1024);
-      copy_arr(face2, face_right, 1024); 
-    }else if ( ( count % 6 ) == 3 ){
-      copy_arr(face1, face_smile, 1024);
-      copy_arr(face2, face_speak, 1024); 
-    }else if ( ( count % 6 ) == 4 ){
-      copy_arr(face1, face_smile, 1024);
-      copy_arr(face2, face_sleep, 1024); 
-    }else if ( ( count % 6 ) == 5 ){
-      copy_arr(face1, face_sad1, 1024);
-      copy_arr(face2, face_sad2, 1024);    
-    } 
+  delay(10);  
 }
 
 bool buttonGetPressed(void)
@@ -78,13 +62,3 @@ bool buttonGetPressed(void)
     return false;
   }  
 }
-
-void copy_arr(unsigned char * tar, const unsigned char * sour, int lo)
-{
-    int count;
-    for (count = 0; count < lo; count++)
-        tar[count] = sour[count];
-    
-    return;
-}
- 

@@ -3,7 +3,9 @@
 
 #include <Arduino.h>
 #include <image/EduBoy.h>
-#include <image/EduBotFace.h>
+//#include <image/EduBotFace.h>
+#include <image/EduBotAniFace.h>
+
 
 enum 
 {

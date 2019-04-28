@@ -1,8 +1,7 @@
-//이예제를 실행하기 위해서는 adafruit mqtt library를 설치 해야 합니다. 
+//이예제를 실행하기 위해서는 adafruit mqtt library를 설치 해야 합니다. 예제 사용법과 IFTTT 쪽 코드 만드는 법은 아래 링크에 있습니다. 
 //Arduino 프로그램에서 Sketch Tap 클릭 -> Include Library -> Manage Libraries 에서 adafruit mqtt library 찾아서 설치
-//예제 사용법과 IFTTT 쪽 코드 만드는 법은 아래 링크에 있습니다. 두개 중복내용임 
-//https://github.com/hyunoklee/OROCA-EduBot-Library/blob/develop/examples/IFTTT/recieveDataFromGoogleAssist/사용법.md
-//https://github.com/oroca/OROCA-EduBot-Library/blob/develop/examples/IFTTT/recieveDataFromGoogleAssist/사용법.md
+//https://github.com/hyunoklee/OROCA-EduBot-Manual/blob/master/recieveDataFromGoogleAssist/manual.md
+
 
 #include <WiFi.h>
 #include <EduBot.h>

@@ -69,7 +69,6 @@ class EduBot
     VL53L0X   tof_R;
     Floor     floor_sensor;
 
-    WifiEduBot wifi;
 
     bool begin(int baud);
     bool update(void);

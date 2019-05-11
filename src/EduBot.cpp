@@ -12,9 +12,6 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 
-#include <WiFi.h>
-#include <WiFiClient.h>
-
 
 
 

@@ -4,8 +4,7 @@
 
 #define PLAY_FILE     0
 #define PLAY_BUFF     1
-#define PLAY_TTS      2
-#define PLAY_URL      3
+
 
 static pcm_format_t bt_buffer_fmt = {
     .sample_rate   = 8000, // 44100
@@ -67,21 +66,6 @@ void audioThread(void *arg)
       {
         wavplayStartBuff(audio_play.play_buff, audio_play.play_buff_length);
       }
-      if (audio_play.play_mode == PLAY_TTS)
-      {
-        p_audio->mp3.connecttospeech(audio_play.url, audio_play.lang);
-      }
-      if (audio_play.play_mode == PLAY_URL)
-      {
-        p_audio->mp3.connecttohost(audio_play.url);
-
-        while(p_audio->mp3.m_f_running)
-        {
-          p_audio->mp3.loop();
-        }
-      }
-
-      
 
       audio_play.is_busy = false;
     }      
@@ -139,8 +123,6 @@ bool Audio::begin(void)
       audio_play.is_init = false;    
       return false;
     }  
-
-    mp3.setVolume(90);
   }
   
 
@@ -219,72 +201,8 @@ bool Audio::playBuff(uint8_t *p_buff, uint32_t length, bool wait)
   return true;
 }
 
-bool Audio::playTTS(String tts, String lang, bool wait)
-{
-  if (audio_play.is_init == false)
-  {
-    return false;
-  }
-
-  audio_play.play_mode = PLAY_TTS;
-  audio_play.is_stop = true;
-  while(audio_play.is_busy)
-  {
-    delay(1);
-  }
-  audio_play.is_stop = false;
-
-
-  
-  audio_play.url = tts;
-  audio_play.lang = lang;
-
-  xSemaphoreGive(play_semaphore);
-
-  if (wait == true)
-  {
-    audio_play.is_busy = true;
-    while(audio_play.is_busy)
-    {
-      delay(1);
-    }
-  }
-  else
-  {
-    audio_play.is_busy = true;
-  }
-  return true;
-}
-
-bool Audio::playURL(String url)
-{
-  if (audio_play.is_init == false)
-  {
-    return false;
-  }
-
-  audio_play.play_mode = PLAY_URL;
-  audio_play.is_stop = true;
-  while(audio_play.is_busy)
-  {
-    delay(1);
-  }
-  audio_play.is_stop = false;
-
-
-  
-  audio_play.url = url;
-
-  xSemaphoreGive(play_semaphore);
-
-  audio_play.is_busy = true;
-  return true;
-}
-
 void Audio::playStop(void)
 {
-  mp3.stopSong();
-
   audio_play.is_stop = true;
   while(audio_play.is_busy)
   {
@@ -308,7 +226,7 @@ bool Audio::isBusy(void)
 
 void Audio::setVolume(uint8_t vol)
 {
-  mp3.setVolume(vol);
+  
 }
 
 bool wavplayStartFile(char *p_name)

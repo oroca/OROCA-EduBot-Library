@@ -17,7 +17,6 @@
 #include "./neopixel/neopixel.h"
 #include "./adc_info/adc_info.h"
 #include "./floor/floor.h"
-#include "./wifi/wifi_edubot.h"
 
 
 

@@ -69,6 +69,8 @@ bool VL53L0X::begin(void)
     startContinuous();
   }
   connected = ret;
+  signal_rate = 0;
+
 
   return ret;
 }
@@ -1093,6 +1095,7 @@ bool VL53L0X::update(void)
   bool ret = false;
   uint8_t reg;
   uint16_t value;
+  
 
   if (connected == false)
   {
@@ -1103,6 +1106,10 @@ bool VL53L0X::update(void)
   
   if ((reg & 0x07) != 0)
   {
+
+    signal_rate = (float)readReg16Bit(RESULT_RANGE_STATUS + 6) / (1 << 7);
+
+
     value = readReg16Bit(RESULT_RANGE_STATUS + 10);
     if (value < 10)
     {

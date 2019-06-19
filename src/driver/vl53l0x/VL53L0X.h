@@ -98,6 +98,7 @@ class VL53L0X
     uint16_t distance_mm;
     uint16_t distance_cm;
     bool     connected;
+    float    signal_rate;
 
     VL53L0X(void);
 

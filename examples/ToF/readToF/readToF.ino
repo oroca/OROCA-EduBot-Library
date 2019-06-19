@@ -18,6 +18,8 @@ void loop() {
   
   edubot.lcd.printf(0, 0 , "L %d mm", edubot.tof_L.distance_mm);
   edubot.lcd.printf(0, 16, "R %d mm", edubot.tof_R.distance_mm);
+  edubot.lcd.printf(70, 0, "%2.1f ", edubot.tof_L.signal_rate);
+  edubot.lcd.printf(70,16, "%2.1f ", edubot.tof_R.signal_rate);
 
   edubot.lcd.display();
   
